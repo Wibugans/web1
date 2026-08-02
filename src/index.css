@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 
 :root {
   --bg: #080b14;
@@ -7,8 +7,8 @@
   --surface-hover: rgba(25, 35, 60, 0.9);
   --border: rgba(255, 255, 255, 0.07);
   --border-active: rgba(139, 92, 246, 0.4);
-  --purple: #8b5cf6;
-  --purple-light: #a78bfa;
+  --purple: #6d28d9;
+  --purple-light: #8b5cf6;
   --cyan: #22d3ee;
   --pink: #ec4899;
   --text: #f1f5f9;
@@ -24,18 +24,18 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Inter', sans-serif;
-  background: var(--bg);
+  background: linear-gradient(135deg, #05070e, #0c111e);
   color: var(--text);
   overflow-x: hidden;
   line-height: 1.6;
 }
 
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-track { background: linear-gradient(135deg, #05070e, #0c111e); }
 ::-webkit-scrollbar-thumb { background: #2d3748; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--purple); }
 
-/* ── BACKGROUND BLOBS ── */
+/* â”€â”€ BACKGROUND BLOBS â”€â”€ */
 .blob-container {
   position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
 }
@@ -53,11 +53,11 @@ body {
   66% { transform: translate(-20px, 20px) scale(0.95); }
 }
 
-/* ── LAYOUT ── */
+/* â”€â”€ LAYOUT â”€â”€ */
 .page { position: relative; z-index: 1; }
 .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 
-/* ── NAV ── */
+/* â”€â”€ NAV â”€â”€ */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding: 18px 40px;
@@ -82,7 +82,7 @@ nav {
 }
 .nav-cta:hover { background: var(--purple-light); transform: translateY(-1px); }
 
-/* ── HERO ── */
+/* â”€â”€ HERO â”€â”€ */
 .hero {
   min-height: 100vh; display: flex; align-items: center; justify-content: center;
   text-align: center; padding: 120px 24px 80px;
@@ -98,12 +98,13 @@ nav {
 @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.5); } }
 
 .hero h1 {
+  font-family: 'Outfit', sans-serif;
   font-size: clamp(2.5rem, 7vw, 5rem);
   font-weight: 900; letter-spacing: -2px; line-height: 1.1;
   margin-bottom: 24px;
 }
 .hero h1 em {
-  font-style: italic; font-family: 'Playfair Display', serif;
+  font-style: italic; font-family: 'Outfit', sans-serif;
   background: linear-gradient(135deg, var(--purple-light), var(--cyan));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
@@ -144,7 +145,7 @@ nav {
 .stat-label { font-size: 0.8rem; color: var(--text-2); font-weight: 500; margin-top: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
 .stat-divider { width: 1px; height: 40px; background: var(--border); }
 
-/* ── SECTIONS ── */
+/* â”€â”€ SECTIONS â”€â”€ */
 section { padding: 100px 0; }
 .section-tag {
   display: inline-flex; align-items: center; gap: 6px;
@@ -153,12 +154,13 @@ section { padding: 100px 0; }
 }
 .section-tag::before { content: ''; width: 20px; height: 2px; background: var(--purple); border-radius: 2px; }
 .section-title {
+  font-family: 'Outfit', sans-serif;
   font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -1px;
   line-height: 1.2; margin-bottom: 16px;
 }
 .section-sub { color: var(--text-2); font-size: 1.05rem; max-width: 520px; }
 
-/* ── FEATURES ── */
+/* â”€â”€ FEATURES â”€â”€ */
 .features-header { margin-bottom: 64px; }
 .features-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
@@ -188,19 +190,20 @@ section { padding: 100px 0; }
 .feat-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
 .feat-desc { color: var(--text-2); font-size: 0.9rem; line-height: 1.7; }
 
-/* ── APP PREVIEW ── */
+/* â”€â”€ APP PREVIEW â”€â”€ */
 .preview-section { background: linear-gradient(180deg, transparent, rgba(139,92,246,0.04), transparent); }
 .preview-inner {
   display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
 }
-.preview-text .section-title { margin-bottom: 24px; }
+.preview-text .section-title {
+  font-family: 'Outfit', sans-serif; margin-bottom: 24px; }
 .preview-list { list-style: none; display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
 .preview-list li {
   display: flex; align-items: center; gap: 12px;
   font-size: 0.95rem; color: var(--text-2);
 }
 .preview-list li::before {
-  content: '✓'; width: 22px; height: 22px; border-radius: 50%;
+  content: 'âœ“'; width: 22px; height: 22px; border-radius: 50%;
   background: rgba(139, 92, 246, 0.15); color: var(--purple-light);
   display: flex; align-items: center; justify-content: center;
   font-size: 0.7rem; font-weight: 700; flex-shrink: 0;
@@ -209,10 +212,14 @@ section { padding: 100px 0; }
   position: relative; display: flex; justify-content: center;
 }
 .phone-frame {
-  width: 220px; height: 420px; background: var(--surface);
-  border: 2px solid var(--border); border-radius: 36px;
-  padding: 16px; position: relative;
-  box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+  width: 260px; height: 500px; background: rgba(20, 25, 40, 0.4);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 40px;
+  padding: 8px; position: relative;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6), inset 0 2px 20px rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+}
+.phone-frame img {
+  border-radius: 32px;
 }
 .phone-screen {
   width: 100%; height: 100%; border-radius: 24px;
@@ -237,7 +244,7 @@ section { padding: 100px 0; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── BLOG ── */
+/* â”€â”€ BLOG â”€â”€ */
 .blog-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
   margin-top: 64px;
@@ -270,7 +277,7 @@ section { padding: 100px 0; }
 .blog-date { font-size: 0.75rem; color: var(--text-3); }
 .blog-read { font-size: 0.75rem; color: var(--purple-light); font-weight: 600; }
 
-/* ── DEVELOPER ── */
+/* â”€â”€ DEVELOPER â”€â”€ */
 .dev-section { background: linear-gradient(180deg, transparent, rgba(34,211,238,0.03), transparent); }
 .dev-inner { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: center; }
 .dev-card {
@@ -301,7 +308,8 @@ section { padding: 100px 0; }
 }
 .dev-social:hover { background: rgba(139, 92, 246, 0.15); border-color: var(--border-active); color: var(--purple-light); }
 .dev-info { }
-.dev-info .section-title { margin-bottom: 20px; }
+.dev-info .section-title {
+  font-family: 'Outfit', sans-serif; margin-bottom: 20px; }
 .dev-info p { color: var(--text-2); margin-bottom: 16px; font-size: 0.95rem; line-height: 1.8; }
 .timeline { margin-top: 32px; display: flex; flex-direction: column; gap: 0; }
 .timeline-item { display: flex; gap: 20px; padding-bottom: 28px; position: relative; }
@@ -319,7 +327,7 @@ section { padding: 100px 0; }
 .timeline-desc { font-size: 0.875rem; color: var(--text-2); }
 .timeline-desc strong { color: var(--text); }
 
-/* ── DOWNLOAD ── */
+/* â”€â”€ DOWNLOAD â”€â”€ */
 .download-section {
   padding: 80px 0; text-align: center;
 }
@@ -339,7 +347,8 @@ section { padding: 100px 0; }
   font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;
   margin-bottom: 20px;
 }
-.download-title { font-size: 2rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
+.download-title {
+  font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
 .download-sub { color: var(--text-2); font-size: 0.95rem; margin-bottom: 36px; }
 .btn-apk {
   display: inline-flex; align-items: center; gap: 12px;
@@ -358,7 +367,7 @@ section { padding: 100px 0; }
   font-size: 0.78rem; color: var(--text-2); font-weight: 500;
 }
 
-/* ── FOOTER ── */
+/* â”€â”€ FOOTER â”€â”€ */
 footer {
   border-top: 1px solid var(--border); padding: 48px 40px;
   display: flex; align-items: center; justify-content: space-between;
@@ -370,7 +379,7 @@ footer {
 .footer-link:hover { color: var(--text); }
 .footer-copy { color: var(--text-3); font-size: 0.8rem; }
 
-/* ── RESPONSIVE ── */
+/* â”€â”€ RESPONSIVE â”€â”€ */
 @media (max-width: 900px) {
   .preview-inner { grid-template-columns: 1fr; gap: 40px; }
   .dev-inner { grid-template-columns: 1fr; gap: 40px; }
@@ -384,3 +393,4 @@ footer {
   footer { flex-direction: column; text-align: center; align-items: center; padding: 36px 20px; }
   .download-box { padding: 40px 24px; }
 }
+

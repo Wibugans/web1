@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import img1 from './assets/1.jpg';
+import img2 from './assets/2.jpg';
 import { useRef } from 'react';
 import { Download, Music2, Headphones, Mic2, Wifi, Zap, Shield, Palette, ListMusic, ChevronRight } from 'lucide-react';
 import './index.css';
@@ -35,15 +37,15 @@ const features = [
 
 const blogs = [
   {
-    thumb: 't1', icon: '🎵',
+    thumb: 't1', icon: 'ðŸŽµ',
     tag: 'Update',
-    title: 'AusDMusic v8.9.1 — Apa Yang Baru Di Versi Ini?',
+    title: 'AusDMusic v8.9.1 â€” Apa Yang Baru Di Versi Ini?',
     excerpt: 'Rilis terbaru membawa perbaikan performa besar-besaran, antarmuka yang lebih halus, dan beberapa fitur baru yang sudah lama ditunggu komunitas.',
     date: '2 Agustus 2026',
     read: '3 min baca',
   },
   {
-    thumb: 't2', icon: '⚡',
+    thumb: 't2', icon: 'âš¡',
     tag: 'Pengembangan',
     title: 'Di Balik Layar: Bagaimana AusDMusic Dibangun',
     excerpt: 'Perjalanan membangun aplikasi musik modern menggunakan Kotlin Multiplatform, Jetpack Compose, dan arsitektur Clean Architecture yang solid.',
@@ -51,9 +53,9 @@ const blogs = [
     read: '5 min baca',
   },
   {
-    thumb: 't3', icon: '🚀',
+    thumb: 't3', icon: 'ðŸš€',
     tag: 'Rencana',
-    title: 'Roadmap AusDMusic 2026 — Fitur Yang Akan Datang',
+    title: 'Roadmap AusDMusic 2026 â€” Fitur Yang Akan Datang',
     excerpt: 'Integrasi AI, rekomendasi cerdas, equalizer bawaan, dan banyak lagi. Inilah yang sedang kami kerjakan untuk masa depan AusDMusic.',
     date: '20 Juli 2026',
     read: '4 min baca',
@@ -62,7 +64,7 @@ const blogs = [
 
 export default function App() {
   const [version, setVersion] = useState('...');
-  const [apkUrl, setApkUrl] = useState('https://github.com/Wibugans/AusDMusic/releases/latest');
+  const [apkUrl, setApkUrl] = useState('https://github.com/Wibugans/AusDMusic/releases/download/Rilis/androidApp-universal-release-sign.apk');
 
   useEffect(() => {
     fetch('https://api.github.com/repos/Wibugans/AusDMusic/releases/latest')
@@ -71,8 +73,7 @@ export default function App() {
         if (data?.tag_name) {
           setVersion(data.tag_name);
           const apk = data.assets?.find(a => a.name.endsWith('.apk') && !a.name.includes('debug'));
-          if (apk) setApkUrl(apk.browser_download_url);
-          else setApkUrl(data.html_url);
+          
         } else {
           setVersion('v8.9.1');
         }
@@ -185,7 +186,7 @@ export default function App() {
                   <div className="section-tag">Tampilan Aplikasi</div>
                   <h2 className="section-title">Indah Di Setiap Sudut Layar</h2>
                   <p style={{ color: 'var(--text-2)', fontSize: '0.95rem', lineHeight: 1.8 }}>
-                    Setiap elemen dirancang dengan teliti. Dari animasi transisi yang halus hingga kartu lagu yang responsif — AusDMusic terasa premium dari detik pertama.
+                    Setiap elemen dirancang dengan teliti. Dari animasi transisi yang halus hingga kartu lagu yang responsif â€” AusDMusic terasa premium dari detik pertama.
                   </p>
                   <ul className="preview-list">
                     <li>Animasi halus di setiap interaksi</li>
@@ -196,38 +197,11 @@ export default function App() {
                   </ul>
                 </motion.div>
                 <motion.div className="phone-mockup" variants={fadeUp}>
-                  <div className="glow-ring" />
-                  <div className="phone-frame">
-                    <div className="phone-screen">
-                      <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                        <span style={{ fontSize: '0.6rem', color: 'var(--text-3)' }}>Now Playing</span>
-                        <Headphones size={12} color="var(--purple-light)" />
-                      </div>
-                      <div className="phone-song">
-                        <div className="phone-album"><Music2 size={40} color="white" /></div>
-                        <div className="phone-title">Kesayangan</div>
-                        <div className="phone-artist">Hindia • 2024</div>
-                      </div>
-                      <div className="phone-progress">
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                          <span style={{ fontSize: '0.55rem', color: 'var(--text-3)' }}>1:24</span>
-                          <span style={{ fontSize: '0.55rem', color: 'var(--text-3)' }}>3:58</span>
-                        </div>
-                        <div className="phone-bar"><div className="phone-fill" /></div>
-                      </div>
-                      <div className="phone-controls">
-                        <span style={{ cursor: 'pointer' }}>⏮</span>
-                        <span style={{ cursor: 'pointer', color: 'var(--purple-light)', fontSize: '1.6rem' }}>⏸</span>
-                        <span style={{ cursor: 'pointer' }}>⏭</span>
-                      </div>
-                      <div className="phone-lyric">
-                        <div>kamu yang paling cantik</div>
-                        <span>kamu yang paling ku suka</span>
-                        <div>dari semua yang ada</div>
-                      </div>
+                    <div className="glow-ring" />
+                    <div className="phone-frame" style={{ padding: 0, overflow: 'hidden' }}>
+                      <img src={img2} alt="AusDMusic Player" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
               </div>
             </Section>
           </div>
@@ -240,7 +214,7 @@ export default function App() {
               <motion.div variants={fadeUp}>
                 <div className="section-tag">Blog Pengembang</div>
                 <h2 className="section-title">Tulisan & Pembaruan</h2>
-                <p className="section-sub">Ikuti perjalanan pengembangan AusDMusic — dari ide hingga rilis, semuanya ada di sini.</p>
+                <p className="section-sub">Ikuti perjalanan pengembangan AusDMusic â€” dari ide hingga rilis, semuanya ada di sini.</p>
               </motion.div>
               <motion.div className="blog-grid" variants={stagger}>
                 {blogs.map((b, i) => (
@@ -252,7 +226,7 @@ export default function App() {
                       <div className="blog-excerpt">{b.excerpt}</div>
                       <div className="blog-footer">
                         <span className="blog-date">{b.date}</span>
-                        <span className="blog-read">{b.read} →</span>
+                        <span className="blog-read">{b.read} â†’</span>
                       </div>
                     </div>
                   </motion.a>
@@ -269,7 +243,7 @@ export default function App() {
               <div className="dev-inner">
                 <motion.div variants={fadeUp}>
                   <div className="dev-card">
-                    <div className="dev-avatar">YW</div>
+                    <div className="dev-avatar"><img src={img1} alt="Yusril When" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }} /></div>
                     <div className="dev-name">Yusril When</div>
                     <div className="dev-role">Developer & Designer</div>
                     <div className="dev-bio">
@@ -277,35 +251,35 @@ export default function App() {
                     </div>
                     <div className="dev-socials">
                       <a href="https://github.com/Wibugans" target="_blank" rel="noreferrer" className="dev-social" title="GitHub">GH</a>
-                      <a href="#" className="dev-social" title="Blog">✍</a>
-                      <a href="#" className="dev-social" title="Email">✉</a>
+                      <a href="#" className="dev-social" title="Blog">âœ</a>
+                      <a href="#" className="dev-social" title="Email">âœ‰</a>
                     </div>
                   </div>
                 </motion.div>
                 <motion.div className="dev-info" variants={fadeUp}>
                   <div className="section-tag">Pengembang</div>
                   <h2 className="section-title">Dibuat Oleh Satu Orang, Untuk Semua Orang</h2>
-                  <p>AusDMusic dimulai sebagai proyek pribadi — frustrasi dengan aplikasi musik yang penuh iklan dan UI yang membosankan. Dari sana, lahirlah visi untuk membuat sesuatu yang benar-benar berbeda.</p>
+                  <p>AusDMusic dimulai sebagai proyek pribadi â€” frustrasi dengan aplikasi musik yang penuh iklan dan UI yang membosankan. Dari sana, lahirlah visi untuk membuat sesuatu yang benar-benar berbeda.</p>
                   <p>Dibangun menggunakan teknologi terkini: Kotlin, Jetpack Compose, dan arsitektur yang bersih. Setiap fitur dikerjakan dengan standar tinggi.</p>
                   <div className="timeline">
                     <div className="timeline-item">
-                      <div className="timeline-dot">🌱</div>
+                      <div className="timeline-dot">ðŸŒ±</div>
                       <div className="timeline-content">
-                        <div className="timeline-year">2024 — Awal</div>
+                        <div className="timeline-year">2024 â€” Awal</div>
                         <div className="timeline-desc"><strong>AusDMusic lahir</strong> sebagai fork dari proyek open-source, dengan visi yang lebih besar.</div>
                       </div>
                     </div>
                     <div className="timeline-item">
-                      <div className="timeline-dot">⚡</div>
+                      <div className="timeline-dot">âš¡</div>
                       <div className="timeline-content">
-                        <div className="timeline-year">2025 — Berkembang</div>
+                        <div className="timeline-year">2025 â€” Berkembang</div>
                         <div className="timeline-desc">Penambahan <strong>lirik tersinkronisasi</strong>, mode offline, dan UI yang sepenuhnya dirancang ulang.</div>
                       </div>
                     </div>
                     <div className="timeline-item">
-                      <div className="timeline-dot">🚀</div>
+                      <div className="timeline-dot">ðŸš€</div>
                       <div className="timeline-content">
-                        <div className="timeline-year">2026 — Sekarang</div>
+                        <div className="timeline-year">2026 â€” Sekarang</div>
                         <div className="timeline-desc">Versi <strong>8.9.1</strong> dengan performa terbaik dan fitur paling lengkap yang pernah ada.</div>
                       </div>
                     </div>
@@ -325,7 +299,7 @@ export default function App() {
                 <h2 className="section-title" style={{ textAlign: 'center' }}>Siap Mencoba AusDMusic?</h2>
               </motion.div>
               <motion.div className="download-box" variants={fadeUp}>
-                <div className="ver-badge">● Versi Terbaru: {version}</div>
+                <div className="ver-badge">â— Versi Terbaru: {version}</div>
                 <div className="download-title">Download Sekarang, Gratis</div>
                 <div className="download-sub">
                   Tersedia untuk Android 8.0 ke atas. Tidak perlu daftar, tidak ada langganan.
@@ -335,9 +309,9 @@ export default function App() {
                   Unduh APK
                 </a>
                 <div className="download-chips">
-                  <span className="chip">⚡ Otomatis update dari GitHub</span>
-                  <span className="chip">🔒 Aman & Open Source</span>
-                  <span className="chip">📱 Android 8.0+</span>
+                  <span className="chip">âš¡ Otomatis update dari GitHub</span>
+                  <span className="chip">ðŸ”’ Aman & Open Source</span>
+                  <span className="chip">ðŸ“± Android 8.0+</span>
                 </div>
                 <div className="download-note">
                   Tautan unduhan otomatis mengarah ke rilis terbaru dari repositori resmi GitHub.
@@ -356,9 +330,13 @@ export default function App() {
             <a href="#pengembang" className="footer-link">Pengembang</a>
             <a href="https://github.com/Wibugans/AusDMusic" target="_blank" rel="noreferrer" className="footer-link">GitHub</a>
           </div>
-          <div className="footer-copy">© 2026 AusDMusic. All rights reserved.</div>
+          <div className="footer-copy">Â© 2026 AusDMusic. All rights reserved.</div>
         </footer>
       </div>
     </>
   );
 }
+
+
+
+
