@@ -349,18 +349,62 @@ footer {
 .footer-link:hover { color: var(--text); }
 .footer-copy { color: var(--text3); font-size: 0.8rem; }
 
-/* RESPONSIVE */
+/* RESPONSIVE - MOBILE & TABLET */
 @media (max-width: 960px) {
   .preview-grid { grid-template-columns: 1fr; gap: 50px; }
   .dev-grid { grid-template-columns: 1fr; gap: 50px; }
   .phone-wrap { width: 220px; }
+  .dev-grid { max-width: 600px; margin: 0 auto; }
 }
+
 @media (max-width: 768px) {
-  nav { padding: 16px 22px; }
+  nav { padding: 14px 18px; }
   .nav-links { display: none; }
-  .hero { padding: 110px 22px 70px; }
+
+  .hero { padding: 100px 18px 60px; }
+  .hero h1 { font-size: 2.5rem; letter-spacing: -1.5px; }
+  .hero-sub { font-size: 0.95rem; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .btn-primary, .btn-outline { width: 100%; max-width: 320px; justify-content: center; }
+  .hero-stats { gap: 24px; margin-top: 60px; }
   .stat-sep { display: none; }
-  .hero-stats { gap: 32px; }
-  .dl-box { padding: 48px 28px; }
-  footer { flex-direction: column; text-align: center; align-items: center; padding: 40px 22px; }
+  .stat-val { font-size: 1.6rem; }
+
+  .section-pad { padding: 72px 0; }
+  .section-header { margin-bottom: 48px; }
+  .section-title { font-size: 1.75rem; }
+  .section-tag { font-size: 0.72rem; }
+
+  .feat-grid { grid-template-columns: 1fr; gap: 16px; }
+  .feat-card { padding: 26px; }
+
+  .preview-grid { grid-template-columns: 1fr; gap: 40px; }
+  .phone-wrap { width: 200px; margin: 0 auto; }
+  .preview-phone { justify-content: center; }
+
+  .blog-grid { grid-template-columns: 1fr; gap: 18px; }
+
+  .dev-grid { grid-template-columns: 1fr; gap: 36px; }
+  .dev-card { padding: 32px 24px; }
+  .dev-info p { font-size: 0.9rem; }
+
+  .dl-box { padding: 40px 22px; }
+  .dl-title { font-size: 1.6rem; }
+  .dl-btn { padding: 16px 36px; font-size: 1rem; }
+  .dl-chips { flex-direction: column; align-items: center; gap: 10px; }
+
+  footer { flex-direction: column; text-align: center; align-items: center; padding: 36px 20px; gap: 20px; }
+  .footer-links { justify-content: center; gap: 20px; }
+
+  .music-btn { bottom: 18px; right: 18px; width: 46px; height: 46px; font-size: 1.2rem; }
+
+  .container { padding: 0 18px; }
 }
+
+@media (max-width: 400px) {
+  .hero h1 { font-size: 2rem; }
+  .hero-badge { font-size: 0.72rem; }
+  .stat-val { font-size: 1.4rem; }
+  .dl-btn { width: 100%; text-align: center; justify-content: center; }
+}
+
