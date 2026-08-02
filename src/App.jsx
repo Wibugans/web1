@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import img1 from './assets/1.jpg';
 import img2 from './assets/2.jpg';
@@ -83,28 +83,25 @@ export default function App() {
     audio.volume = 1.0;
     audioRef.current = audio;
 
-    // Coba autoplay langsung (muted dulu supaya browser izinkan)
-    audio.muted = true;
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
-        // Berhasil play dalam kondisi muted, lalu unmute
-        audio.muted = false;
-        setMusicPlaying(true);
-      }).catch(() => {
-        // Browser blokir autoplay, tunggu interaksi pertama user
-        audio.muted = false;
-        const startOnInteraction = () => {
-          audio.play().then(() => setMusicPlaying(true)).catch(() => {});
-          ['click','scroll','touchstart','keydown'].forEach(e => 
-            document.removeEventListener(e, startOnInteraction)
-          );
-        };
-        ['click','scroll','touchstart','keydown'].forEach(e =>
-          document.addEventListener(e, startOnInteraction, { once: false })
+    const tryPlay = () => {
+      if (audioRef.current) {
+        audioRef.current.play().then(() => setMusicPlaying(true)).catch(() => {});
+      }
+    };
+
+    // Coba autoplay
+    audio.play().then(() => setMusicPlaying(true)).catch(() => {
+      // Jika diblokir, pasang listener untuk klik dan scroll
+      const startOnInteraction = () => {
+        tryPlay();
+        ['click', 'scroll', 'touchstart', 'keydown'].forEach(e => 
+          document.removeEventListener(e, startOnInteraction)
         );
-      });
-    }
+      };
+      ['click', 'scroll', 'touchstart', 'keydown'].forEach(e =>
+        document.addEventListener(e, startOnInteraction, { once: false })
+      );
+    });
 
     return () => { audio.pause(); };
   }, []);
@@ -131,7 +128,7 @@ export default function App() {
 
       {/* Music Toggle Button */}
       <button className="music-btn" onClick={toggleMusic} title={musicPlaying ? 'Pause musik' : 'Putar musik'}>
-        {musicPlaying ? 'ðŸ”Š' : 'ðŸ”‡'}
+        {musicPlaying ? '🔊' : '🔇'}
       </button>
 
       <div className="page">

@@ -34,6 +34,55 @@ body {
 ::-webkit-scrollbar-thumb { background: #2a3352; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--purple); }
 
+/* SPLASH SCREEN */
+.splash {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  animation: splashIn 0.5s ease;
+}
+@keyframes splashIn { from { opacity: 0; } to { opacity: 1; } }
+.splash-orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(120px); opacity: 0.18; pointer-events: none;
+}
+.splash-orb1 { width: 600px; height: 600px; background: var(--purple); top: -150px; left: -150px; animation: orbFloat 10s ease-in-out infinite; }
+.splash-orb2 { width: 500px; height: 500px; background: var(--cyan); bottom: -100px; right: -100px; animation: orbFloat 12s ease-in-out infinite reverse; }
+.splash-inner { text-align: center; position: relative; z-index: 1; }
+.splash-logo {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 2rem; font-weight: 900; letter-spacing: -1px;
+  color: var(--text); margin-bottom: 32px;
+}
+.splash-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--purple-l); display: inline-block; }
+.splash-title {
+  font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 900;
+  letter-spacing: -2px; line-height: 1;
+  background: linear-gradient(135deg, var(--purple-l), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 20px;
+}
+.splash-sub {
+  color: var(--text2); font-size: 1.1rem; font-weight: 400;
+  margin-bottom: 48px; letter-spacing: 0.3px;
+}
+.splash-pulse {
+  display: flex; justify-content: center; gap: 10px;
+}
+.splash-pulse span {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--purple-l); opacity: 0.7;
+  animation: splashBounce 1.2s ease-in-out infinite;
+}
+.splash-pulse span:nth-child(2) { animation-delay: 0.2s; }
+.splash-pulse span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes splashBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(-14px); opacity: 1; }
+}
+
+
 /* BACKGROUND ORBS */
 .bg-orbs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .orb {
