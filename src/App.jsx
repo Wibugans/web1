@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Download, PlayCircle, ShieldCheck, Zap, Music, Smartphone, Github } from 'lucide-react';
+import { Download, PlayCircle, ShieldCheck, Zap, Music, Smartphone, ExternalLink } from 'lucide-react';
 import './App.css';
 
 function App() {
@@ -61,7 +61,7 @@ function App() {
           <a href="#features" className="nav-link">Fitur</a>
           <a href="#download" className="nav-link">Download</a>
           <a href="https://github.com/Wibugans/AusDMusic" target="_blank" rel="noreferrer" className="nav-link">
-            <Github size={20} />
+            <ExternalLink size={20} />
           </a>
         </nav>
       </header>
