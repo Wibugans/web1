@@ -1,5 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { 
+  Play, Mic2, Zap, Smartphone, ListMusic, Wifi, 
+  Calendar, Terminal, Target, Download, Check, Shield, MoveDown 
+} from 'lucide-react';
 import img1 from './assets/1.jpg';
 import img2 from './assets/2.jpg';
 import './index.css';
@@ -25,26 +29,26 @@ function Section({ children }) {
 }
 
 const features = [
-  { icon: 'ðŸŽµ', color: 'purple', title: 'Streaming Gratis', desc: 'Dengarkan jutaan lagu dari YouTube Music tanpa biaya sepeser pun. Bebas iklan, bebas batas.' },
-  { icon: 'ðŸŽ¤', color: 'cyan', title: 'Lirik Tersinkronisasi', desc: 'Lirik ditampilkan secara real-time mengikuti lagu. Karaoke kapan saja, di mana saja.' },
-  { icon: 'âš¡', color: 'orange', title: 'Ringan & Cepat', desc: 'Dibangun dengan performa terdepan. Buka instan, putar instan. Tidak ada lag, tidak ada buffering.' },
-  { icon: 'ðŸŽ¨', color: 'pink', title: 'UI Premium', desc: 'Antarmuka yang indah dan modern dengan dukungan Material You serta tema gelap yang memanjakan mata.' },
-  { icon: 'ðŸ“‹', color: 'green', title: 'Playlist Tak Terbatas', desc: 'Buat, simpan, dan kelola playlist sesukamu. Ekspor dan impor dengan mudah.' },
-  { icon: 'ðŸ“¶', color: 'blue', title: 'Mode Offline', desc: 'Unduh lagu favoritmu dan dengarkan tanpa koneksi internet. Musik kapanpun kamu mau.' },
+  { icon: <Play size={24} />, color: 'purple', title: 'Streaming Gratis', desc: 'Dengarkan jutaan lagu dari YouTube Music tanpa biaya sepeser pun. Bebas iklan, bebas batas.' },
+  { icon: <Mic2 size={24} />, color: 'cyan', title: 'Lirik Tersinkronisasi', desc: 'Lirik ditampilkan secara real-time mengikuti lagu. Karaoke kapan saja, di mana saja.' },
+  { icon: <Zap size={24} />, color: 'orange', title: 'Ringan & Cepat', desc: 'Dibangun dengan performa terdepan. Buka instan, putar instan. Tidak ada lag, tidak ada buffering.' },
+  { icon: <Smartphone size={24} />, color: 'pink', title: 'UI Premium', desc: 'Antarmuka yang indah dan modern dengan dukungan Material You serta tema gelap yang memanjakan mata.' },
+  { icon: <ListMusic size={24} />, color: 'green', title: 'Playlist Tak Terbatas', desc: 'Buat, simpan, dan kelola playlist sesukamu. Ekspor dan impor dengan mudah.' },
+  { icon: <Wifi size={24} />, color: 'blue', title: 'Mode Offline', desc: 'Unduh lagu favoritmu dan dengarkan tanpa koneksi internet. Musik kapanpun kamu mau.' },
 ];
 
 const blogs = [
   {
-    icon: 'ðŸš€',
+    icon: <Target size={40} color="rgba(255,255,255,0.7)" />,
     tag: 'Update',
-    title: 'AusDMusic v8.9.1 â€” Apa Yang Baru Di Versi Ini?',
+    title: 'AusDMusic v8.9.1 - Apa Yang Baru Di Versi Ini?',
     excerpt: 'Rilis terbaru membawa perbaikan performa besar-besaran, antarmuka yang lebih halus, dan beberapa fitur baru yang sudah lama ditunggu komunitas.',
     date: '2 Agustus 2026',
     read: '3 min baca',
     gradient: 'linear-gradient(135deg, #1a0533, #2d0a5e)',
   },
   {
-    icon: 'ðŸ”§',
+    icon: <Terminal size={40} color="rgba(255,255,255,0.7)" />,
     tag: 'Pengembangan',
     title: 'Di Balik Layar: Bagaimana AusDMusic Dibangun',
     excerpt: 'Perjalanan membangun aplikasi musik modern menggunakan Kotlin Multiplatform, Jetpack Compose, dan arsitektur Clean Architecture yang solid.',
@@ -53,9 +57,9 @@ const blogs = [
     gradient: 'linear-gradient(135deg, #03213d, #063b5e)',
   },
   {
-    icon: 'ðŸ”®',
+    icon: <Calendar size={40} color="rgba(255,255,255,0.7)" />,
     tag: 'Rencana',
-    title: 'Roadmap AusDMusic 2026 â€” Fitur Yang Akan Datang',
+    title: 'Roadmap AusDMusic 2026 - Fitur Yang Akan Datang',
     excerpt: 'Integrasi AI, rekomendasi cerdas, equalizer bawaan, dan banyak lagi. Inilah yang sedang kami kerjakan untuk masa depan AusDMusic.',
     date: '20 Juli 2026',
     read: '4 min baca',
@@ -67,7 +71,6 @@ const APK_URL = 'https://github.com/Wibugans/AusDMusic/releases/download/Rilis/a
 
 export default function App() {
   const [version, setVersion] = useState('v8.9.1');
-  const [musicPlaying, setMusicPlaying] = useState(false);
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -85,13 +88,12 @@ export default function App() {
 
     const tryPlay = () => {
       if (audioRef.current) {
-        audioRef.current.play().then(() => setMusicPlaying(true)).catch(() => {});
+        audioRef.current.play().catch(() => {});
       }
     };
 
-    // Coba autoplay
-    audio.play().then(() => setMusicPlaying(true)).catch(() => {
-      // Jika diblokir, pasang listener untuk klik dan scroll
+    // Auto-play immediately (invisible interaction)
+    audio.play().catch(() => {
       const startOnInteraction = () => {
         tryPlay();
         ['click', 'scroll', 'touchstart', 'keydown'].forEach(e => 
@@ -106,30 +108,13 @@ export default function App() {
     return () => { audio.pause(); };
   }, []);
 
-  const toggleMusic = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    if (musicPlaying) {
-      audio.pause();
-      setMusicPlaying(false);
-    } else {
-      audio.play().then(() => setMusicPlaying(true)).catch(() => {});
-    }
-  };
-
   return (
     <>
-      {/* Background */}
       <div className="bg-orbs">
         <div className="orb orb-1" />
         <div className="orb orb-2" />
         <div className="orb orb-3" />
       </div>
-
-      {/* Music Toggle Button */}
-      <button className="music-btn" onClick={toggleMusic} title={musicPlaying ? 'Pause musik' : 'Putar musik'}>
-        {musicPlaying ? '🔊' : '🔇'}
-      </button>
 
       <div className="page">
         {/* NAV */}
@@ -165,10 +150,10 @@ export default function App() {
             </motion.p>
             <motion.div className="hero-actions" variants={fadeUp}>
               <a href={APK_URL} className="btn-primary" download>
-                <span>â¬‡</span> Download APK
+                <Download size={20} /> Download APK
               </a>
               <a href="#fitur" className="btn-outline">
-                Lihat Fitur â†’
+                Lihat Fitur <MoveDown size={20} />
               </a>
             </motion.div>
             <motion.div className="hero-stats" variants={fadeUp}>
@@ -227,14 +212,14 @@ export default function App() {
                   <h2 className="section-title">Indah Di Setiap Sudut Layar</h2>
                   <p className="preview-desc">
                     Setiap elemen dirancang dengan teliti. Dari animasi transisi yang halus
-                    hingga kartu lagu yang responsif â€” AusDMusic terasa premium dari detik pertama.
+                    hingga kartu lagu yang responsif - AusDMusic terasa premium dari detik pertama.
                   </p>
                   <ul className="preview-list">
-                    <li>Animasi halus di setiap interaksi</li>
-                    <li>Tema gelap yang tidak lelah di mata</li>
-                    <li>Lirik terhubung real-time</li>
-                    <li>Player mini yang selalu ada</li>
-                    <li>Widget home screen yang cantik</li>
+                    <li><Check size={18} color="#a78bfa" /> Animasi halus di setiap interaksi</li>
+                    <li><Check size={18} color="#a78bfa" /> Tema gelap yang tidak lelah di mata</li>
+                    <li><Check size={18} color="#a78bfa" /> Lirik terhubung real-time</li>
+                    <li><Check size={18} color="#a78bfa" /> Player mini yang selalu ada</li>
+                    <li><Check size={18} color="#a78bfa" /> Widget home screen yang cantik</li>
                   </ul>
                 </motion.div>
                 <motion.div className="preview-phone" variants={fadeUp}>
@@ -255,13 +240,13 @@ export default function App() {
               <motion.div variants={fadeUp} className="section-header">
                 <div className="section-tag">Blog Pengembang</div>
                 <h2 className="section-title">Tulisan & Pembaruan</h2>
-                <p className="section-sub">Ikuti perjalanan pengembangan AusDMusic â€” dari ide hingga rilis, semuanya ada di sini.</p>
+                <p className="section-sub">Ikuti perjalanan pengembangan AusDMusic - dari ide hingga rilis, semuanya ada di sini.</p>
               </motion.div>
               <motion.div className="blog-grid" variants={stagger}>
                 {blogs.map((b, i) => (
                   <motion.div key={i} className="blog-card" variants={fadeUp}>
                     <div className="blog-thumb" style={{ background: b.gradient }}>
-                      <span className="blog-thumb-icon">{b.icon}</span>
+                      {b.icon}
                     </div>
                     <div className="blog-body">
                       <span className="blog-tag">{b.tag}</span>
@@ -269,7 +254,7 @@ export default function App() {
                       <div className="blog-excerpt">{b.excerpt}</div>
                       <div className="blog-footer">
                         <span className="blog-date">{b.date}</span>
-                        <span className="blog-read">{b.read} â†’</span>
+                        <span className="blog-read">{b.read}</span>
                       </div>
                     </div>
                   </motion.div>
@@ -305,27 +290,27 @@ export default function App() {
                 <motion.div className="dev-info" variants={fadeUp}>
                   <div className="section-tag">Pengembang</div>
                   <h2 className="section-title">Dibuat Oleh Satu Orang,<br />Untuk Semua Orang</h2>
-                  <p>AusDMusic dimulai sebagai proyek pribadi â€” frustrasi dengan aplikasi musik yang penuh iklan dan UI yang membosankan. Dari sana, lahirlah visi untuk membuat sesuatu yang benar-benar berbeda.</p>
+                  <p>AusDMusic dimulai sebagai proyek pribadi - frustrasi dengan aplikasi musik yang penuh iklan dan UI yang membosankan. Dari sana, lahirlah visi untuk membuat sesuatu yang benar-benar berbeda.</p>
                   <p>Dibangun menggunakan teknologi terkini: Kotlin, Jetpack Compose, dan arsitektur yang bersih. Setiap fitur dikerjakan dengan standar tinggi.</p>
                   <div className="timeline">
                     <div className="timeline-item">
-                      <div className="tl-dot">ðŸŒ±</div>
+                      <div className="tl-dot"><Target size={16} /></div>
                       <div>
-                        <div className="tl-year">2024 â€” Awal</div>
+                        <div className="tl-year">2024 - Awal</div>
                         <div className="tl-desc"><strong>AusDMusic lahir</strong> sebagai fork dari proyek open-source, dengan visi yang lebih besar.</div>
                       </div>
                     </div>
                     <div className="timeline-item">
-                      <div className="tl-dot">âš¡</div>
+                      <div className="tl-dot"><Zap size={16} /></div>
                       <div>
-                        <div className="tl-year">2025 â€” Berkembang</div>
+                        <div className="tl-year">2025 - Berkembang</div>
                         <div className="tl-desc">Penambahan <strong>lirik tersinkronisasi</strong>, mode offline, dan UI yang sepenuhnya dirancang ulang.</div>
                       </div>
                     </div>
                     <div className="timeline-item">
-                      <div className="tl-dot">ðŸ”®</div>
+                      <div className="tl-dot"><Terminal size={16} /></div>
                       <div>
-                        <div className="tl-year">2026 â€” Sekarang</div>
+                        <div className="tl-year">2026 - Sekarang</div>
                         <div className="tl-desc">Versi <strong>8.9.1</strong> dengan performa terbaik dan fitur paling lengkap yang pernah ada.</div>
                       </div>
                     </div>
@@ -349,12 +334,12 @@ export default function App() {
                 <div className="dl-title">Download Sekarang, Gratis</div>
                 <div className="dl-sub">Tersedia untuk Android 8.0 ke atas. Tidak perlu daftar, tidak ada langganan.</div>
                 <a href={APK_URL} className="dl-btn" download>
-                  â¬‡ &nbsp;Unduh APK
+                  <Download size={22} /> Unduh APK
                 </a>
                 <div className="dl-chips">
-                  <span className="chip">âœ“ Otomatis update dari GitHub</span>
-                  <span className="chip">ðŸ”’ Aman & Open Source</span>
-                  <span className="chip">ðŸ“± Android 8.0+</span>
+                  <span className="chip"><Check size={14} /> Otomatis update dari GitHub</span>
+                  <span className="chip"><Shield size={14} /> Aman & Open Source</span>
+                  <span className="chip"><Smartphone size={14} /> Android 8.0+</span>
                 </div>
                 <div className="dl-note">Tautan unduhan otomatis mengarah ke rilis terbaru dari repositori resmi GitHub.</div>
               </motion.div>
@@ -371,10 +356,9 @@ export default function App() {
             <a href="#pengembang" className="footer-link">Pengembang</a>
             <a href="https://github.com/Wibugans/AusDMusic" target="_blank" rel="noreferrer" className="footer-link">GitHub</a>
           </div>
-          <div className="footer-copy">Â© 2026 AusDMusic. All rights reserved.</div>
+          <div className="footer-copy">© 2026 AusDMusic. All rights reserved.</div>
         </footer>
       </div>
     </>
   );
 }
-
