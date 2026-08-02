@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { 
   Play, Mic2, Zap, Smartphone, ListMusic, Wifi, 
-  Calendar, Terminal, Target, Download, Check, Shield, MoveDown 
+  Calendar, Terminal, Target, Download, Check, Shield, MoveDown, Monitor 
 } from 'lucide-react';
 import img1 from './assets/1.jpg';
 import img2 from './assets/2.jpg';
@@ -68,6 +68,7 @@ const blogs = [
 ];
 
 const APK_URL = 'https://github.com/Wibugans/AusDMusic/releases/download/Rilis/androidApp-universal-release-sign.apk';
+const WINDOWS_URL = 'https://github.com/Wibugans/AusDMusic/releases/download/windows/AusDMusic-8.9.1.exe';
 
 export default function App() {
   const [version, setVersion] = useState('v8.9.1');
@@ -150,7 +151,10 @@ export default function App() {
             </motion.p>
             <motion.div className="hero-actions" variants={fadeUp}>
               <a href={APK_URL} className="btn-primary" download>
-                <Download size={20} /> Download APK
+                <Smartphone size={20} /> Download APK
+              </a>
+              <a href={WINDOWS_URL} className="btn-primary" style={{ background: 'linear-gradient(135deg, #22d3ee, #0ea5e9)' }} download>
+                <Monitor size={20} /> Versi PC (.exe)
               </a>
               <a href="#fitur" className="btn-outline">
                 Lihat Fitur <MoveDown size={20} />
@@ -173,8 +177,8 @@ export default function App() {
               </div>
               <div className="stat-sep" />
               <div className="stat">
-                <div className="stat-val" style={{ color: '#34d399' }}>Android</div>
-                <div className="stat-label">8.0+</div>
+                <div className="stat-val" style={{ color: '#34d399' }}>Cross Platform</div>
+                <div className="stat-label">Android & Windows</div>
               </div>
             </motion.div>
           </Section>
@@ -333,13 +337,19 @@ export default function App() {
                 <div className="dl-ver-badge">Versi Terbaru: {version}</div>
                 <div className="dl-title">Download Sekarang, Gratis</div>
                 <div className="dl-sub">Tersedia untuk Android 8.0 ke atas. Tidak perlu daftar, tidak ada langganan.</div>
-                <a href={APK_URL} className="dl-btn" download>
-                  <Download size={22} /> Unduh APK
-                </a>
+                <div className="dl-buttons" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+                  <a href={APK_URL} className="dl-btn" download>
+                    <Smartphone size={22} /> Android APK
+                  </a>
+                  <a href={WINDOWS_URL} className="dl-btn" style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)' }} download>
+                    <Monitor size={22} /> Windows PC (.exe)
+                  </a>
+                </div>
                 <div className="dl-chips">
                   <span className="chip"><Check size={14} /> Otomatis update dari GitHub</span>
                   <span className="chip"><Shield size={14} /> Aman & Open Source</span>
                   <span className="chip"><Smartphone size={14} /> Android 8.0+</span>
+                  <span className="chip"><Monitor size={14} /> Windows 10/11</span>
                 </div>
                 <div className="dl-note">Tautan unduhan otomatis mengarah ke rilis terbaru dari repositori resmi GitHub.</div>
               </motion.div>
