@@ -83,17 +83,30 @@ export default function App() {
     audio.volume = 0.25;
     audioRef.current = audio;
 
-    const tryPlay = () => {
-      audio.play().then(() => setMusicPlaying(true)).catch(() => {});
-    };
+    // Coba autoplay langsung (muted dulu supaya browser izinkan)
+    audio.muted = true;
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        // Berhasil play dalam kondisi muted, lalu unmute
+        audio.muted = false;
+        setMusicPlaying(true);
+      }).catch(() => {
+        // Browser blokir autoplay, tunggu interaksi pertama user
+        audio.muted = false;
+        const startOnInteraction = () => {
+          audio.play().then(() => setMusicPlaying(true)).catch(() => {});
+          ['click','scroll','touchstart','keydown'].forEach(e => 
+            document.removeEventListener(e, startOnInteraction)
+          );
+        };
+        ['click','scroll','touchstart','keydown'].forEach(e =>
+          document.addEventListener(e, startOnInteraction, { once: false })
+        );
+      });
+    }
 
-    document.addEventListener('click', tryPlay, { once: true });
-    document.addEventListener('keydown', tryPlay, { once: true });
-
-    return () => {
-      audio.pause();
-      document.removeEventListener('click', tryPlay);
-    };
+    return () => { audio.pause(); };
   }, []);
 
   const toggleMusic = () => {
