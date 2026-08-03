@@ -389,7 +389,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   cursor: default;
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(12px);
 }
 .feat-card::before {
   content: '';
@@ -408,7 +407,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(6,182,212,0.15));
   border: 1px solid rgba(124,58,237,0.2);
   color: #a855f7;
-  backdrop-filter: blur(8px);
 }
 .feat-name {
   font-size: 1.05rem; font-weight: 700;
@@ -537,7 +535,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: relative;
   overflow: hidden;
   transition: all 0.3s var(--ease);
-  backdrop-filter: blur(12px);
 }
 .platform-card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
 .platform-card-primary {
@@ -615,7 +612,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   border-radius: 20px;
   padding: 28px;
   transition: border-color 0.3s, transform 0.3s;
-  backdrop-filter: blur(16px);
 }
 .trust-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
 .trust-stars { color: #fbbf24; font-size: 0.9rem; margin-bottom: 14px; letter-spacing: 2px; }

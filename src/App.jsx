@@ -8,8 +8,8 @@ import {
 } from 'lucide-react';
 import imgAnime from './assets/1.jpg';
 import imgApp from './assets/2.jpg';
-import appIcon from '/icon.png';
-import appIconLarge from '/app_icon.png';
+const appIcon = '/icon.png';
+const appIconLarge = '/app_icon.png';
 import './index.css';
 
 // ─── constants ─────────────────────────────────────────────────────────────
