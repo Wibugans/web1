@@ -3,7 +3,8 @@ import { motion, useInView } from 'framer-motion';
 import {
   Play, Mic2, Zap, Smartphone, Wifi,
   Terminal, Check, Monitor, Volume2,
-  Download, ArrowRight, Headphones
+  Download, ArrowRight, Headphones,
+  ShieldCheck, Sparkles, Code2
 } from 'lucide-react';
 import img1 from './assets/1.jpg';
 import img2 from './assets/2.jpg';
