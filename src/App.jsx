@@ -2,25 +2,26 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { 
   Play, Mic2, Zap, Smartphone, ListMusic, Wifi, 
-  Calendar, Terminal, Target, Download, Check, Shield, MoveDown, Monitor 
+  Terminal, Target, Download, Check, Shield, Monitor,
+  Music, Volume2, Globe, Layers, ArrowRight
 } from 'lucide-react';
 import img1 from './assets/1.jpg';
 import img2 from './assets/2.jpg';
 import './index.css';
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
 };
 
 const stagger = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
+  visible: { transition: { staggerChildren: 0.1 } },
 };
 
 function Section({ children }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
   return (
     <motion.div ref={ref} initial="hidden" animate={isInView ? 'visible' : 'hidden'} variants={stagger}>
       {children}
@@ -28,51 +29,13 @@ function Section({ children }) {
   );
 }
 
-const features = [
-  { icon: <Play size={24} />, color: 'purple', title: 'Streaming Gratis', desc: 'Dengarkan jutaan lagu dari YouTube Music tanpa biaya sepeser pun. Bebas iklan, bebas batas.' },
-  { icon: <Mic2 size={24} />, color: 'cyan', title: 'Lirik Tersinkronisasi', desc: 'Lirik ditampilkan secara real-time mengikuti lagu. Karaoke kapan saja, di mana saja.' },
-  { icon: <Zap size={24} />, color: 'orange', title: 'Ringan & Cepat', desc: 'Dibangun dengan performa terdepan. Buka instan, putar instan. Tidak ada lag, tidak ada buffering.' },
-  { icon: <Smartphone size={24} />, color: 'pink', title: 'UI Premium', desc: 'Antarmuka yang indah dan modern dengan dukungan Material You serta tema gelap yang memanjakan mata.' },
-  { icon: <ListMusic size={24} />, color: 'green', title: 'Playlist Tak Terbatas', desc: 'Buat, simpan, dan kelola playlist sesukamu. Ekspor dan impor dengan mudah.' },
-  { icon: <Wifi size={24} />, color: 'blue', title: 'Mode Offline', desc: 'Unduh lagu favoritmu dan dengarkan tanpa koneksi internet. Musik kapanpun kamu mau.' },
-];
-
-const blogs = [
-  {
-    icon: <Target size={40} color="rgba(255,255,255,0.7)" />,
-    tag: 'Update',
-    title: 'AusDMusic v8.9.1 - Apa Yang Baru Di Versi Ini?',
-    excerpt: 'Rilis terbaru membawa perbaikan performa besar-besaran, antarmuka yang lebih halus, dan beberapa fitur baru yang sudah lama ditunggu komunitas.',
-    date: '2 Agustus 2026',
-    read: '3 min baca',
-    gradient: 'linear-gradient(135deg, #1a0533, #2d0a5e)',
-  },
-  {
-    icon: <Terminal size={40} color="rgba(255,255,255,0.7)" />,
-    tag: 'Pengembangan',
-    title: 'Di Balik Layar: Bagaimana AusDMusic Dibangun',
-    excerpt: 'Perjalanan membangun aplikasi musik modern menggunakan Kotlin Multiplatform, Jetpack Compose, dan arsitektur Clean Architecture yang solid.',
-    date: '28 Juli 2026',
-    read: '5 min baca',
-    gradient: 'linear-gradient(135deg, #03213d, #063b5e)',
-  },
-  {
-    icon: <Calendar size={40} color="rgba(255,255,255,0.7)" />,
-    tag: 'Rencana',
-    title: 'Roadmap AusDMusic 2026 - Fitur Yang Akan Datang',
-    excerpt: 'Integrasi AI, rekomendasi cerdas, equalizer bawaan, dan banyak lagi. Inilah yang sedang kami kerjakan untuk masa depan AusDMusic.',
-    date: '20 Juli 2026',
-    read: '4 min baca',
-    gradient: 'linear-gradient(135deg, #1a1535, #2d2060)',
-  },
-];
-
 const APK_URL = 'https://github.com/Wibugans/AusDMusic/releases/download/Rilis/androidApp-universal-release-sign.apk';
 const WINDOWS_URL = 'https://github.com/Wibugans/AusDMusic/releases/download/windows/AusDMusic-8.9.1.exe';
 
 export default function App() {
   const [version, setVersion] = useState('v8.9.1');
   const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     fetch('https://api.github.com/repos/Wibugans/AusDMusic/releases/latest')
@@ -84,17 +47,17 @@ export default function App() {
   useEffect(() => {
     const audio = new Audio('/lagu.mp3');
     audio.loop = true;
-    audio.volume = 1.0;
+    audio.volume = 0.8;
     audioRef.current = audio;
 
     const tryPlay = () => {
-      if (audioRef.current) {
-        audioRef.current.play().catch(() => {});
+      if (audioRef.current && !isPlaying) {
+        audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
       }
     };
 
     // Auto-play immediately (invisible interaction)
-    audio.play().catch(() => {
+    audio.play().then(() => setIsPlaying(true)).catch(() => {
       const startOnInteraction = () => {
         tryPlay();
         ['click', 'scroll', 'touchstart', 'keydown'].forEach(e => 
@@ -109,249 +72,196 @@ export default function App() {
     return () => { audio.pause(); };
   }, []);
 
+  const toggleAudio = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
   return (
     <>
-      <div className="bg-orbs">
-        <div className="orb orb-1" />
-        <div className="orb orb-2" />
-        <div className="orb orb-3" />
-      </div>
+      <div className="bg-mesh" />
 
-      <div className="page">
-        {/* NAV */}
+      {/* FLOATING NAVBAR */}
+      <div className="nav-wrapper">
         <nav>
           <a href="#" className="nav-logo">
-            <span className="logo-dot" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
             AusDMusic
           </a>
           <div className="nav-links">
-            <a href="#fitur" className="nav-link">Fitur</a>
-            <a href="#blog" className="nav-link">Blog</a>
-            <a href="#pengembang" className="nav-link">Pengembang</a>
-            <a href={APK_URL} className="nav-cta" download>Download APK</a>
+            <a href="#fitur" className="nav-link">Features</a>
+            <a href="#blog" className="nav-link">Updates</a>
+            <a href="#pengembang" className="nav-link">About</a>
           </div>
+          <a href="#download" className="nav-cta">Download</a>
         </nav>
+      </div>
 
+      <div className="page">
         {/* HERO */}
         <section className="hero">
           <Section>
             <motion.div variants={fadeUp}>
               <div className="hero-badge">
                 <span className="badge-dot" />
-                Versi Terbaru {version} Sudah Tersedia
+                <span>AusDMusic <span className="badge-highlight">{version}</span> is now available</span>
               </div>
             </motion.div>
             <motion.h1 variants={fadeUp}>
-              Musik Tanpa Batas,<br />
-              Pengalaman <em>Tanpa Kompromi</em>
+              Experience music <br />
+              <span className="hero-gradient-text">without boundaries.</span>
             </motion.h1>
             <motion.p className="hero-sub" variants={fadeUp}>
-              AusDMusic adalah pemutar musik Android yang bebas iklan, bertenaga tinggi,
-              dengan lirik tersinkronisasi dan antarmuka premium yang terasa seperti buatan Anda sendiri.
+              A premium, ad-free streaming client with real-time lyrics, offline playback, and an uncompromising design aesthetic. Engineered for performance.
             </motion.p>
             <motion.div className="hero-actions" variants={fadeUp}>
               <a href={APK_URL} className="btn-primary" download>
-                <Smartphone size={20} /> Download APK
+                <Smartphone size={20} /> Get for Android
               </a>
-              <a href={WINDOWS_URL} className="btn-primary" style={{ background: 'linear-gradient(135deg, #22d3ee, #0ea5e9)' }} download>
-                <Monitor size={20} /> Versi PC (.exe)
-              </a>
-              <a href="#fitur" className="btn-outline">
-                Lihat Fitur <MoveDown size={20} />
+              <a href={WINDOWS_URL} className="btn-secondary" download>
+                <Monitor size={20} /> Get for Windows
               </a>
             </motion.div>
-            <motion.div className="hero-stats" variants={fadeUp}>
-              <div className="stat">
-                <div className="stat-val" style={{ color: '#a78bfa' }}>100%</div>
-                <div className="stat-label">Bebas Iklan</div>
-              </div>
-              <div className="stat-sep" />
-              <div className="stat">
-                <div className="stat-val" style={{ color: '#22d3ee' }}>Open</div>
-                <div className="stat-label">Source</div>
-              </div>
-              <div className="stat-sep" />
-              <div className="stat">
-                <div className="stat-val" style={{ color: '#f472b6' }}>8.9.1</div>
-                <div className="stat-label">Versi Stabil</div>
-              </div>
-              <div className="stat-sep" />
-              <div className="stat">
-                <div className="stat-val" style={{ color: '#34d399' }}>Cross Platform</div>
-                <div className="stat-label">Android & Windows</div>
+
+            <motion.div className="hero-visual" variants={fadeUp}>
+              <div className="hero-glow" />
+              <div className="hero-visual-inner">
+                <img src={img2} alt="AusDMusic Interface" className="hero-visual-img" />
               </div>
             </motion.div>
           </Section>
         </section>
 
-        {/* FEATURES */}
+        {/* BENTO GRID FEATURES */}
         <section id="fitur" className="section-pad">
           <div className="container">
             <Section>
-              <motion.div variants={fadeUp} className="section-header">
-                <div className="section-tag">Fitur Unggulan</div>
-                <h2 className="section-title">Semua Yang Kamu Butuhkan,<br />Dalam Satu Aplikasi</h2>
-                <p className="section-sub">Dirancang untuk pecinta musik sejati yang tidak mau berkompromi soal kualitas dan kenyamanan.</p>
-              </motion.div>
-              <motion.div className="feat-grid" variants={stagger}>
-                {features.map((f, i) => (
-                  <motion.div key={i} className="feat-card" variants={fadeUp}>
-                    <div className={`feat-icon feat-${f.color}`}>{f.icon}</div>
-                    <div className="feat-title">{f.title}</div>
-                    <div className="feat-desc">{f.desc}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </Section>
-          </div>
-        </section>
+              <div className="section-header">
+                <div className="section-tag">Architecture</div>
+                <h2 className="section-title">Designed for perfection.</h2>
+                <p className="section-sub">Every pixel and interaction is crafted to provide a fluid, immersive listening experience that respects your time and attention.</p>
+              </div>
 
-        {/* PREVIEW */}
-        <section className="section-pad preview-bg">
-          <div className="container">
-            <Section>
-              <div className="preview-grid">
-                <motion.div className="preview-text" variants={fadeUp}>
-                  <div className="section-tag">Tampilan Aplikasi</div>
-                  <h2 className="section-title">Indah Di Setiap Sudut Layar</h2>
-                  <p className="preview-desc">
-                    Setiap elemen dirancang dengan teliti. Dari animasi transisi yang halus
-                    hingga kartu lagu yang responsif - AusDMusic terasa premium dari detik pertama.
-                  </p>
-                  <ul className="preview-list">
-                    <li><Check size={18} color="#a78bfa" /> Animasi halus di setiap interaksi</li>
-                    <li><Check size={18} color="#a78bfa" /> Tema gelap yang tidak lelah di mata</li>
-                    <li><Check size={18} color="#a78bfa" /> Lirik terhubung real-time</li>
-                    <li><Check size={18} color="#a78bfa" /> Player mini yang selalu ada</li>
-                    <li><Check size={18} color="#a78bfa" /> Widget home screen yang cantik</li>
-                  </ul>
+              <div className="bento-grid">
+                {/* Large Bento */}
+                <motion.div className="bento-item bento-large" variants={fadeUp}>
+                  <div className="bento-icon"><Globe size={24} /></div>
+                  <h3 className="bento-title">Infinite Streaming</h3>
+                  <p className="bento-desc">Harness the power of an unlimited music catalog. Stream millions of tracks ad-free, with seamless playback transitions and intelligent buffering that never skips a beat.</p>
+                  <Globe className="bento-bg-icon" />
                 </motion.div>
-                <motion.div className="preview-phone" variants={fadeUp}>
-                  <div className="phone-glow" />
-                  <div className="phone-wrap">
-                    <img src={img2} alt="AusDMusic App Screenshot" className="phone-img" />
-                  </div>
+
+                {/* Standard Bentos */}
+                <motion.div className="bento-item" variants={fadeUp}>
+                  <div className="bento-icon"><Mic2 size={24} /></div>
+                  <h3 className="bento-title">Real-time Lyrics</h3>
+                  <p className="bento-desc">Perfectly synced lyrics that scroll dynamically as the song progresses.</p>
+                  <Mic2 className="bento-bg-icon" />
+                </motion.div>
+
+                <motion.div className="bento-item" variants={fadeUp}>
+                  <div className="bento-icon"><Layers size={24} /></div>
+                  <h3 className="bento-title">Native UX</h3>
+                  <p className="bento-desc">Fluid animations and material elements that feel inherently native to your device.</p>
+                  <Layers className="bento-bg-icon" />
+                </motion.div>
+
+                {/* Wide Bento */}
+                <motion.div className="bento-item bento-wide" variants={fadeUp}>
+                  <div className="bento-icon"><Wifi size={24} /></div>
+                  <h3 className="bento-title">True Offline Mode</h3>
+                  <p className="bento-desc">Download entire libraries in high fidelity. Complete with metadata and lyrics, your music stays with you even when the connection drops.</p>
+                  <Wifi className="bento-bg-icon" />
+                </motion.div>
+
+                <motion.div className="bento-item" variants={fadeUp}>
+                  <div className="bento-icon"><Zap size={24} /></div>
+                  <h3 className="bento-title">Blazing Fast</h3>
+                  <p className="bento-desc">Zero telemetry, zero bloat. Instant launches.</p>
+                  <Zap className="bento-bg-icon" />
                 </motion.div>
               </div>
             </Section>
           </div>
         </section>
 
-        {/* BLOG */}
+        {/* BLOG / UPDATES */}
         <section id="blog" className="section-pad">
           <div className="container">
             <Section>
-              <motion.div variants={fadeUp} className="section-header">
-                <div className="section-tag">Blog Pengembang</div>
-                <h2 className="section-title">Tulisan & Pembaruan</h2>
-                <p className="section-sub">Ikuti perjalanan pengembangan AusDMusic - dari ide hingga rilis, semuanya ada di sini.</p>
-              </motion.div>
-              <motion.div className="blog-grid" variants={stagger}>
-                {blogs.map((b, i) => (
-                  <motion.div key={i} className="blog-card" variants={fadeUp}>
-                    <div className="blog-thumb" style={{ background: b.gradient }}>
-                      {b.icon}
-                    </div>
-                    <div className="blog-body">
-                      <span className="blog-tag">{b.tag}</span>
-                      <div className="blog-title">{b.title}</div>
-                      <div className="blog-excerpt">{b.excerpt}</div>
-                      <div className="blog-footer">
-                        <span className="blog-date">{b.date}</span>
-                        <span className="blog-read">{b.read}</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </Section>
-          </div>
-        </section>
+              <div className="section-header">
+                <div className="section-tag">Changelog</div>
+                <h2 className="section-title">Continuous iteration.</h2>
+              </div>
 
-        {/* DEVELOPER */}
-        <section id="pengembang" className="section-pad dev-bg">
-          <div className="container">
-            <Section>
-              <div className="dev-grid">
-                <motion.div variants={fadeUp}>
-                  <div className="dev-card">
-                    <div className="dev-avatar">
-                      <img src={img1} alt="Yusril When" />
-                    </div>
-                    <div className="dev-name">Yusril When</div>
-                    <div className="dev-role">Developer & Designer</div>
-                    <div className="dev-bio">
-                      Pengembang independen yang berfokus pada aplikasi Android yang indah dan performa tinggi.
-                      AusDMusic adalah proyek utama yang dikerjakan dengan penuh semangat.
-                    </div>
-                    <div className="dev-socials">
-                      <a href="https://github.com/Wibugans" target="_blank" rel="noreferrer" className="dev-social">GitHub</a>
-                      <a href="#" className="dev-social">Blog</a>
-                      <a href="#" className="dev-social">Email</a>
-                    </div>
+              <div className="blog-grid">
+                <motion.a href="#" className="blog-card" variants={fadeUp}>
+                  <div className="blog-tag">Release</div>
+                  <h3 className="blog-title">AusDMusic v8.9.1: The Desktop Evolution</h3>
+                  <p className="blog-excerpt">Our biggest update yet brings the full AusDMusic experience to Windows PC, complete with cross-platform synchronization and memory optimizations.</p>
+                  <div className="blog-footer">
+                    <span>Aug 2, 2026</span>
+                    <span className="read-more">Read notes &rarr;</span>
                   </div>
-                </motion.div>
-                <motion.div className="dev-info" variants={fadeUp}>
-                  <div className="section-tag">Pengembang</div>
-                  <h2 className="section-title">Dibuat Oleh Satu Orang,<br />Untuk Semua Orang</h2>
-                  <p>AusDMusic dimulai sebagai proyek pribadi - frustrasi dengan aplikasi musik yang penuh iklan dan UI yang membosankan. Dari sana, lahirlah visi untuk membuat sesuatu yang benar-benar berbeda.</p>
-                  <p>Dibangun menggunakan teknologi terkini: Kotlin, Jetpack Compose, dan arsitektur yang bersih. Setiap fitur dikerjakan dengan standar tinggi.</p>
-                  <div className="timeline">
-                    <div className="timeline-item">
-                      <div className="tl-dot"><Target size={16} /></div>
-                      <div>
-                        <div className="tl-year">2024 - Awal</div>
-                        <div className="tl-desc"><strong>AusDMusic lahir</strong> sebagai fork dari proyek open-source, dengan visi yang lebih besar.</div>
-                      </div>
-                    </div>
-                    <div className="timeline-item">
-                      <div className="tl-dot"><Zap size={16} /></div>
-                      <div>
-                        <div className="tl-year">2025 - Berkembang</div>
-                        <div className="tl-desc">Penambahan <strong>lirik tersinkronisasi</strong>, mode offline, dan UI yang sepenuhnya dirancang ulang.</div>
-                      </div>
-                    </div>
-                    <div className="timeline-item">
-                      <div className="tl-dot"><Terminal size={16} /></div>
-                      <div>
-                        <div className="tl-year">2026 - Sekarang</div>
-                        <div className="tl-desc">Versi <strong>8.9.1</strong> dengan performa terbaik dan fitur paling lengkap yang pernah ada.</div>
-                      </div>
-                    </div>
+                </motion.a>
+
+                <motion.a href="#" className="blog-card" variants={fadeUp}>
+                  <div className="blog-tag">Engineering</div>
+                  <h3 className="blog-title">Migrating to Compose Multiplatform</h3>
+                  <p className="blog-excerpt">How we unified our Android and Windows codebase using Kotlin Multiplatform, reducing technical debt by 40% while improving rendering performance.</p>
+                  <div className="blog-footer">
+                    <span>Jul 28, 2026</span>
+                    <span className="read-more">Read article &rarr;</span>
                   </div>
-                </motion.div>
+                </motion.a>
+
+                <motion.a href="#" className="blog-card" variants={fadeUp}>
+                  <div className="blog-tag">Roadmap</div>
+                  <h3 className="blog-title">The Future of Audio Playback</h3>
+                  <p className="blog-excerpt">A look ahead at what's coming: AI-driven equalizers, spatial audio enhancements, and algorithmic playlist generation.</p>
+                  <div className="blog-footer">
+                    <span>Jul 20, 2026</span>
+                    <span className="read-more">View roadmap &rarr;</span>
+                  </div>
+                </motion.a>
               </div>
             </Section>
           </div>
         </section>
 
-        {/* DOWNLOAD */}
-        <section id="download" className="section-pad download-bg">
+        {/* DOWNLOAD / CTA */}
+        <section id="download" className="section-pad download-section">
           <div className="container">
             <Section>
-              <motion.div variants={fadeUp} className="section-header" style={{ textAlign: 'center' }}>
-                <div className="section-tag" style={{ justifyContent: 'center' }}>Download</div>
-                <h2 className="section-title" style={{ textAlign: 'center' }}>Siap Mencoba AusDMusic?</h2>
-              </motion.div>
-              <motion.div className="dl-box" variants={fadeUp}>
-                <div className="dl-ver-badge">Versi Terbaru: {version}</div>
-                <div className="dl-title">Download Sekarang, Gratis</div>
-                <div className="dl-sub">Tersedia untuk Android 8.0 ke atas. Tidak perlu daftar, tidak ada langganan.</div>
-                <div className="dl-buttons" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-                  <a href={APK_URL} className="dl-btn" download>
-                    <Smartphone size={22} /> Android APK
+              <motion.div className="dl-card" variants={fadeUp}>
+                <h2 className="section-title">Start listening.</h2>
+                <p className="section-sub" style={{ margin: '0 auto' }}>
+                  Available now for Android and Windows. <br />
+                  Free forever. Open source. No subscriptions.
+                </p>
+
+                <div className="dl-buttons">
+                  <a href={APK_URL} className="btn-primary" download>
+                    <Smartphone size={20} /> Download for Android
                   </a>
-                  <a href={WINDOWS_URL} className="dl-btn" style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)' }} download>
-                    <Monitor size={22} /> Windows PC (.exe)
+                  <a href={WINDOWS_URL} className="btn-secondary" download>
+                    <Monitor size={20} /> Download for Windows
                   </a>
                 </div>
+
                 <div className="dl-chips">
-                  <span className="chip"><Check size={14} /> Otomatis update dari GitHub</span>
-                  <span className="chip"><Shield size={14} /> Aman & Open Source</span>
-                  <span className="chip"><Smartphone size={14} /> Android 8.0+</span>
-                  <span className="chip"><Monitor size={14} /> Windows 10/11</span>
+                  <div className="chip"><Check size={16} /> Auto-updates</div>
+                  <div className="chip"><Shield size={16} /> Privacy First</div>
+                  <div className="chip"><Terminal size={16} /> Open Source</div>
                 </div>
-                <div className="dl-note">Tautan unduhan otomatis mengarah ke rilis terbaru dari repositori resmi GitHub.</div>
               </motion.div>
             </Section>
           </div>
@@ -359,15 +269,27 @@ export default function App() {
 
         {/* FOOTER */}
         <footer>
-          <div className="footer-logo">AusDMusic</div>
-          <div className="footer-links">
-            <a href="#fitur" className="footer-link">Fitur</a>
-            <a href="#blog" className="footer-link">Blog</a>
-            <a href="#pengembang" className="footer-link">Pengembang</a>
-            <a href="https://github.com/Wibugans/AusDMusic" target="_blank" rel="noreferrer" className="footer-link">GitHub</a>
+          <div className="container">
+            <div className="footer-inner">
+              <div className="footer-brand">
+                <Music size={20} /> AusDMusic
+              </div>
+              <div className="footer-links">
+                <a href="#fitur" className="footer-link">Features</a>
+                <a href="#blog" className="footer-link">Updates</a>
+                <a href="https://github.com/Wibugans/AusDMusic" target="_blank" rel="noreferrer" className="footer-link">GitHub</a>
+              </div>
+              <div className="footer-copy">
+                Created by Yusril When &bull; &copy; 2026 AusDMusic. All rights reserved.
+              </div>
+            </div>
           </div>
-          <div className="footer-copy">© 2026 AusDMusic. All rights reserved.</div>
         </footer>
+      </div>
+
+      {/* DISCREET MUSIC CONTROLLER */}
+      <div className="music-controller" onClick={toggleAudio} title={isPlaying ? "Pause background music" : "Play background music"}>
+        {isPlaying ? <Volume2 size={20} /> : <Play size={20} />}
       </div>
     </>
   );
