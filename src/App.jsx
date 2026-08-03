@@ -1,89 +1,47 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { 
-  Play, Mic2, Zap, Smartphone, Wifi, 
-  Terminal, Shield, Monitor, Check,
-  Music, Volume2, Globe, Layers
+  Play, Mic2, Zap, Smartphone, ListMusic, Wifi, 
+  Calendar, Terminal, Target, Check, Shield, MoveDown, Monitor, Volume2, Music
 } from 'lucide-react';
+import img1 from './assets/1.jpg';
 import img2 from './assets/2.jpg';
 import './index.css';
 
-// Parallax Section Wrapper
-function ParallaxSection({ children, offset = 50 }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
-  const y = useTransform(scrollYProgress, [0, 1], [-offset, offset]);
-  const springY = useSpring(y, { stiffness: 100, damping: 30, restDelta: 0.001 });
-
-  return (
-    <div ref={ref}>
-      <motion.div style={{ y: springY }}>
-        {children}
-      </motion.div>
-    </div>
-  );
-}
-
-// Staggered Fade Up
 const fadeUp = {
-  hidden: { opacity: 0, y: 50, scale: 0.95 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] } },
-};
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
 };
 
-// Interactive 3D Card
-function BentoCard({ children, className = "" }) {
-  const cardRef = useRef(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
 
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    setPosition({ x, y });
-
-    // 3D Tilt calculation
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -10;
-    const rotateY = ((x - centerX) / centerX) * 10;
-    
-    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    if (cardRef.current) {
-      cardRef.current.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-    }
-  };
-
+function Section({ children }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
   return (
-    <motion.div 
-      ref={cardRef}
-      className={`bento-card ${className}`}
-      variants={fadeUp}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        '--mouse-x': `${position.x}px`,
-        '--mouse-y': `${position.y}px`,
-      }}
-    >
-      <div className="bento-spotlight" />
+    <motion.div ref={ref} initial="hidden" animate={isInView ? 'visible' : 'hidden'} variants={stagger}>
       {children}
     </motion.div>
   );
 }
+
+const features = [
+  { icon: <Mic2 />, title: "Lirik Real-time", desc: "Nikmati lirik tersinkronisasi yang bergulir otomatis mengikuti lagu. Termasuk terjemahan untuk jutaan lagu global.", color: "purple" },
+  { icon: <Zap />, title: "Performa Tinggi", desc: "Ditulis dalam Kotlin untuk native Android. Tanpa telemetri, ringan di baterai, dan transisi layar mulus 60fps.", color: "cyan" },
+  { icon: <Wifi />, title: "Offline Mode", desc: "Unduh musik favorit Anda beserta lirik dan metadatanya. Dengarkan di mana saja bahkan saat tidak ada sinyal.", color: "pink" },
+  { icon: <ListMusic />, title: "Audio Resolusi Tinggi", desc: "Dukungan penuh untuk format audio FLAC dan streaming lossless langsung dari sumber resmi.", color: "green" },
+  { icon: <Target />, title: "Rekomendasi Cerdas", desc: "Dapatkan campuran hasil kurasi otomatis berdasarkan artis dan lagu yang sering Anda dengarkan.", color: "orange" },
+  { icon: <Terminal />, title: "100% Open Source", desc: "Keamanan terjamin karena kode sumber terbuka sepenuhnya. Tanpa pelacak tersembunyi, tanpa iklan.", color: "blue" },
+];
+
+const blogs = [
+  { tag: "Rilis", title: "AusDMusic 8.9.1 Tiba di Windows PC", excerpt: "Kini Anda bisa menikmati pengalaman mendengarkan musik bebas iklan yang sama di laptop Windows Anda.", date: "2 Agu 2026", read: "Baca selengkapnya →", icon: <Monitor />, gradient: "linear-gradient(135deg, #0ea5e9, #3b82f6)" },
+  { tag: "Update", title: "Migrasi ke Compose Multiplatform", excerpt: "Bagaimana kami menyatukan kode UI Android dan PC, mengurangi ukuran aplikasi hingga 30% dan meningkatkan performa.", date: "15 Jul 2026", read: "Baca selengkapnya →", icon: <Smartphone />, gradient: "linear-gradient(135deg, #8b5cf6, #d946ef)" },
+  { tag: "Catatan", title: "Masa Depan Pemutaran Audio", excerpt: "Fokus kami berikutnya adalah peningkatan EQ Spasial dan generasi daftar putar cerdas yang lebih akurat.", date: "1 Jul 2026", read: "Baca selengkapnya →", icon: <Calendar />, gradient: "linear-gradient(135deg, #10b981, #059669)" },
+];
 
 const APK_URL = 'https://github.com/Wibugans/AusDMusic/releases/download/Rilis/androidApp-universal-release-sign.apk';
 const WINDOWS_URL = 'https://github.com/Wibugans/AusDMusic/releases/download/windows/AusDMusic-8.9.1.exe';
@@ -92,12 +50,6 @@ export default function App() {
   const [version, setVersion] = useState('v8.9.1');
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  
-  // Hero Parallax Setup
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 1000], [0, 200]);
-  const heroOpacity = useTransform(scrollY, [0, 600], [1, 0]);
-  const imgY = useTransform(scrollY, [0, 1000], [0, -150]);
 
   useEffect(() => {
     fetch('https://api.github.com/repos/Wibugans/AusDMusic/releases/latest')
@@ -146,165 +98,229 @@ export default function App() {
 
   return (
     <>
-      <div className="aurora-bg">
-        <div className="aurora-blob aurora-1"></div>
-        <div className="aurora-blob aurora-2"></div>
-        <div className="aurora-blob aurora-3"></div>
+      {/* STATIC BACKGROUND ORBS */}
+      <div className="bg-orbs">
+        <div className="orb orb-1"></div>
+        <div className="orb orb-2"></div>
       </div>
-      <div className="noise-overlay" />
 
-      {/* FLOATING NAVBAR */}
-      <div className="nav-wrapper">
+      <div className="page">
+        {/* NAV */}
         <nav>
           <a href="#" className="nav-logo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
-            </svg>
-            AusDMusic
+            <span className="logo-dot" /> AusDMusic
           </a>
           <div className="nav-links">
-            <a href="#fitur" className="nav-link">Features</a>
-            <a href="#blog" className="nav-link">Updates</a>
+            <a href="#fitur" className="nav-link">Fitur</a>
+            <a href="#blog" className="nav-link">Pembaruan</a>
+            <a href="#pengembang" className="nav-link">Pengembang</a>
           </div>
-          <a href="#download" className="nav-cta">Download Now</a>
+          <a href="#download" className="nav-cta">Unduh Sekarang</a>
         </nav>
-      </div>
 
-      <div className="page-wrapper">
         {/* HERO */}
         <section className="hero">
-          <motion.div 
-            style={{ y: heroY, opacity: heroOpacity }}
-            initial="hidden" animate="visible" variants={staggerContainer}
-            className="container"
-          >
-            <motion.div variants={fadeUp} style={{ display: 'flex', justifyContent: 'center' }}>
+          <Section>
+            <motion.div variants={fadeUp}>
               <div className="hero-badge">
-                <span className="badge-dot" />
-                <span>AusDMusic <span style={{color:'#fff'}}>{version}</span> Released</span>
+                <span className="logo-dot" />
+                <span>AusDMusic {version} Tersedia</span>
               </div>
             </motion.div>
-            
             <motion.h1 variants={fadeUp}>
-              Immersive audio. <br />
-              <span className="hero-gradient-text">Absolute freedom.</span>
+              Musik yang indah,<br />
+              <em>tanpa kompromi.</em>
             </motion.h1>
-            
             <motion.p className="hero-sub" variants={fadeUp}>
-              Experience a highly animated, deeply immersive streaming client. Fully open source, visually breathtaking, and engineered to run flawlessly on Windows and Android.
+              AusDMusic adalah pemutar musik pintar yang bebas iklan, bertenaga tinggi,
+              dengan lirik tersinkronisasi dan antarmuka premium yang memukau.
             </motion.p>
-            
             <motion.div className="hero-actions" variants={fadeUp}>
-              <a href={APK_URL} className="btn-animated" download>
-                <span><Smartphone size={20} style={{display:'inline', verticalAlign:'middle', marginRight:8}}/> Android APK</span>
+              <a href={APK_URL} className="btn-primary" download>
+                <Smartphone size={20} /> Download APK
               </a>
-              <a href={WINDOWS_URL} className="btn-animated" download>
-                <span><Monitor size={20} style={{display:'inline', verticalAlign:'middle', marginRight:8}}/> Windows PC</span>
+              <a href={WINDOWS_URL} className="btn-outline" download>
+                <Monitor size={20} /> Versi PC (.exe)
               </a>
             </motion.div>
-          </motion.div>
-
-          <motion.div className="hero-visual-wrapper" style={{ y: imgY }} initial={{opacity:0, y:100}} animate={{opacity:1, y:0}} transition={{delay: 0.6, duration: 1}}>
-            <div className="hero-visual-inner">
-              <img src={img2} alt="AusDMusic App" className="hero-visual-img" />
-            </div>
-            {/* Floating Ornaments */}
-            <div className="floating-element float-1">
-              <div style={{display:'flex', alignItems:'center', gap:10, color:'#fff', fontWeight:600}}>
-                <div style={{background:'linear-gradient(135deg, #00d2ff, #3a7bd5)', padding:8, borderRadius:12}}><Music size={20}/></div>
-                Lossless Audio
+            <motion.div className="hero-stats" variants={fadeUp}>
+              <div className="stat">
+                <div className="stat-val" style={{ color: '#a78bfa' }}>100%</div>
+                <div className="stat-label">Bebas Iklan</div>
               </div>
-            </div>
-            <div className="floating-element float-2">
-              <div style={{display:'flex', alignItems:'center', gap:10, color:'#fff', fontWeight:600}}>
-                <div style={{background:'linear-gradient(135deg, #ff00b3, #7000ff)', padding:8, borderRadius:12}}><Mic2 size={20}/></div>
-                Synced Lyrics
+              <div className="stat-sep" />
+              <div className="stat">
+                <div className="stat-val" style={{ color: '#22d3ee' }}>Open</div>
+                <div className="stat-label">Source</div>
               </div>
-            </div>
-          </motion.div>
+              <div className="stat-sep" />
+              <div className="stat">
+                <div className="stat-val" style={{ color: '#34d399' }}>Cross Platform</div>
+                <div className="stat-label">Android & PC</div>
+              </div>
+            </motion.div>
+          </Section>
         </section>
 
-        {/* FEATURES - INTERACTIVE BENTO GRID */}
+        {/* FEATURES GRID */}
         <section id="fitur" className="section-pad">
           <div className="container">
-            <ParallaxSection offset={30}>
-              <div className="section-header">
-                <div className="section-tag">Next-Gen Architecture</div>
-                <h2 className="section-title">Beyond limits.</h2>
-                <p className="section-sub">Interact with the cards below. Built with Framer Motion and 3D CSS transforms for a fluid, tactile experience.</p>
+            <Section>
+              <motion.div variants={fadeUp} className="section-header">
+                <div className="section-tag">Fitur Unggulan</div>
+                <h2 className="section-title">Semua Yang Kamu Butuhkan,<br />Dalam Satu Aplikasi</h2>
+                <p className="section-sub">Dirancang secara profesional untuk pecinta musik sejati yang tidak mau berkompromi soal kualitas dan kenyamanan antarmuka.</p>
+              </motion.div>
+              <motion.div className="feat-grid" variants={stagger}>
+                {features.map((f, i) => (
+                  <motion.div key={i} className="feat-card" variants={fadeUp}>
+                    <div className={`feat-icon feat-${f.color}`}>{f.icon}</div>
+                    <div className="feat-title">{f.title}</div>
+                    <div className="feat-desc">{f.desc}</div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </Section>
+          </div>
+        </section>
+
+        {/* PREVIEW MOCKUP */}
+        <section className="section-pad preview-bg">
+          <div className="container">
+            <Section>
+              <div className="preview-grid">
+                <motion.div className="preview-text" variants={fadeUp}>
+                  <div className="section-tag">Tampilan Aplikasi</div>
+                  <h2 className="section-title">Indah Di Setiap Sudut Layar</h2>
+                  <p className="section-sub">
+                    Setiap elemen dirancang dengan presisi. Dari animasi transisi yang super halus
+                    hingga kartu pemutar lagu yang responsif - AusDMusic terasa premium dari detik pertama Anda membukanya.
+                  </p>
+                  <ul className="preview-list">
+                    <li><Check size={18} color="#a78bfa" /> Animasi native 60fps yang super mulus</li>
+                    <li><Check size={18} color="#a78bfa" /> Mode gelap yang elegan dan ramah baterai</li>
+                    <li><Check size={18} color="#a78bfa" /> Lirik interaktif yang bergeser dinamis</li>
+                    <li><Check size={18} color="#a78bfa" /> Widget *home screen* yang interaktif</li>
+                  </ul>
+                </motion.div>
+                <motion.div className="preview-phone" variants={fadeUp}>
+                  <div className="phone-glow" />
+                  <div className="phone-wrap">
+                    {/* The second image: App Preview */}
+                    <img src={img2} alt="AusDMusic App Interface" className="phone-img" />
+                  </div>
+                </motion.div>
               </div>
-            </ParallaxSection>
+            </Section>
+          </div>
+        </section>
 
-            <motion.div 
-              className="bento-grid"
-              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}
-              variants={staggerContainer}
-            >
-              <BentoCard className="bento-large">
-                <div className="bento-icon"><Globe size={32} /></div>
-                <h3 className="bento-title">Infinite Universe</h3>
-                <p className="bento-desc">Dive into a limitless catalog of high-fidelity music without a single ad interrupting your flow. The backend aggressively caches data to ensure instant playback anywhere on Earth.</p>
-                <Globe className="bento-bg-icon" />
-              </BentoCard>
+        {/* BLOG / UPDATES */}
+        <section id="blog" className="section-pad">
+          <div className="container">
+            <Section>
+              <motion.div variants={fadeUp} className="section-header">
+                <div className="section-tag">Jurnal Pengembang</div>
+                <h2 className="section-title">Tulisan & Pembaruan Terkini</h2>
+                <p className="section-sub">Ikuti perjalanan pengembangan teknis AusDMusic - dari arsitektur perangkat lunak hingga fitur terbaru.</p>
+              </motion.div>
+              <motion.div className="blog-grid" variants={stagger}>
+                {blogs.map((b, i) => (
+                  <motion.div key={i} className="blog-card" variants={fadeUp}>
+                    <div className="blog-thumb" style={{ background: b.gradient }}>
+                      {b.icon}
+                    </div>
+                    <div className="blog-body">
+                      <span className="blog-tag">{b.tag}</span>
+                      <div className="blog-title">{b.title}</div>
+                      <div className="blog-excerpt">{b.excerpt}</div>
+                      <div className="blog-footer">
+                        <span className="blog-date">{b.date}</span>
+                        <span className="blog-read">{b.read}</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </Section>
+          </div>
+        </section>
 
-              <BentoCard>
-                <div className="bento-icon"><Mic2 size={32} /></div>
-                <h3 className="bento-title">Dynamic Lyrics</h3>
-                <p className="bento-desc">Real-time synced lyrics that glow and scroll alongside the music tempo.</p>
-                <Mic2 className="bento-bg-icon" />
-              </BentoCard>
-
-              <BentoCard>
-                <div className="bento-icon"><Layers size={32} /></div>
-                <h3 className="bento-title">Immersive UX</h3>
-                <p className="bento-desc">Silky smooth 60fps animations wrapped in an award-winning aesthetic.</p>
-                <Layers className="bento-bg-icon" />
-              </BentoCard>
-
-              <BentoCard className="bento-wide">
-                <div className="bento-icon"><Wifi size={32} /></div>
-                <h3 className="bento-title">Uncompromising Offline</h3>
-                <p className="bento-desc">Your music, your rules. Download thousands of tracks and lyrics with one tap. Zero DRM restrictions, pure freedom.</p>
-                <Wifi className="bento-bg-icon" />
-              </BentoCard>
-              
-              <BentoCard>
-                <div className="bento-icon"><Zap size={32} /></div>
-                <h3 className="bento-title">Hyper Fast</h3>
-                <p className="bento-desc">Written in Kotlin for maximum hardware utilization.</p>
-                <Zap className="bento-bg-icon" />
-              </BentoCard>
-            </motion.div>
+        {/* DEVELOPER PROFILE */}
+        <section id="pengembang" className="section-pad dev-bg">
+          <div className="container">
+            <Section>
+              <div className="dev-grid">
+                <motion.div variants={fadeUp}>
+                  <div className="dev-card">
+                    <div className="dev-avatar">
+                      {/* First image: Profile Picture */}
+                      <img src={img1} alt="Yusril When Profil" />
+                    </div>
+                    <div className="dev-name">Yusril When</div>
+                    <div className="dev-role">Software Engineer & Designer</div>
+                    <div className="dev-bio">
+                      Pengembang independen yang berfokus pada rekayasa aplikasi Android lintas platform dengan performa tinggi dan desain berkelas.
+                    </div>
+                    <div className="dev-socials">
+                      <a href="https://github.com/Wibugans" target="_blank" rel="noreferrer" className="dev-social">GitHub</a>
+                      <a href="#" className="dev-social">Website</a>
+                      <a href="#" className="dev-social">Email</a>
+                    </div>
+                  </div>
+                </motion.div>
+                <motion.div className="dev-info" variants={fadeUp}>
+                  <div className="section-tag">Di Balik Layar</div>
+                  <h2 className="section-title">Dibuat Dengan Standar Industri Tertinggi</h2>
+                  <p>AusDMusic dimulai dari rasa frustrasi terhadap pemutar musik modern yang terlalu lambat, dipenuhi pelacak data, dan membombardir pengguna dengan iklan yang mengganggu pengalaman mendengarkan.</p>
+                  <p>Dibangun dari nol menggunakan teknologi mutakhir: Kotlin Multiplatform, arsitektur Clean MVVM, dan Jetpack Compose. Semua kode ditulis secara *native* demi performa tertinggi, menjadikannya salah satu *open-source client* paling canggih saat ini.</p>
+                  <div className="timeline">
+                    <div className="timeline-item">
+                      <div className="tl-dot">🚀</div>
+                      <div>
+                        <div className="tl-year">Agustus 2026</div>
+                        <div className="tl-desc">Rilis Dukungan PC Windows <span>Mengekspansi kode Android ke desktop menggunakan JVM & Compose.</span></div>
+                      </div>
+                    </div>
+                    <div className="timeline-item">
+                      <div className="tl-dot">⚡</div>
+                      <div>
+                        <div className="tl-year">Juli 2026</div>
+                        <div className="tl-desc">Rebrand AusDMusic <span>Desain ulang total seluruh antarmuka ke standar premium.</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </Section>
           </div>
         </section>
 
         {/* DOWNLOAD / CTA */}
         <section id="download" className="section-pad download-section">
           <div className="container">
-            <ParallaxSection offset={-40}>
-              <div className="dl-card">
-                <h2 className="section-title">The future of audio.</h2>
-                <p className="section-sub" style={{ margin: '0 auto', color: '#fff' }}>
-                  Available today for Android and Windows. <br />
-                  No ads. No tracking. Just pure music.
+            <Section>
+              <motion.div className="dl-box" variants={fadeUp}>
+                <h2 className="dl-title">Mulai Pengalaman Baru Anda</h2>
+                <p className="dl-sub">
+                  Tersedia untuk Android 8.0+ dan Windows PC. <br />
+                  Tidak perlu akun. Tidak ada langganan. Bebas iklan selamanya.
                 </p>
-
                 <div className="dl-buttons">
-                  <a href={APK_URL} className="btn-animated" download>
-                    <span><Smartphone size={20} style={{display:'inline', verticalAlign:'middle', marginRight:8}}/> Android APK</span>
+                  <a href={APK_URL} className="dl-btn primary" download>
+                    <Smartphone size={22} /> Download untuk Android
                   </a>
-                  <a href={WINDOWS_URL} className="btn-animated" download>
-                    <span><Monitor size={20} style={{display:'inline', verticalAlign:'middle', marginRight:8}}/> Windows PC</span>
+                  <a href={WINDOWS_URL} className="dl-btn" download>
+                    <Monitor size={22} /> Download untuk Windows
                   </a>
                 </div>
-
                 <div className="dl-chips">
-                  <div className="chip"><Check size={16} /> Auto Updates</div>
-                  <div className="chip"><Shield size={16} /> Maximum Privacy</div>
-                  <div className="chip"><Terminal size={16} /> Open Source</div>
+                  <span className="chip"><Check size={16} /> Update Otomatis</span>
+                  <span className="chip"><Shield size={16} /> Bebas Telemetri</span>
+                  <span className="chip"><Terminal size={16} /> 100% Open Source</span>
                 </div>
-              </div>
-            </ParallaxSection>
+              </motion.div>
+            </Section>
           </div>
         </section>
 
@@ -312,18 +328,16 @@ export default function App() {
         <footer>
           <div className="container">
             <div className="footer-inner">
-              <div className="footer-brand">
-                <div style={{background:'linear-gradient(135deg, #00d2ff, #7000ff)', padding:8, borderRadius:12, color:'#fff'}}>
-                  <Music size={24} />
-                </div>
-                AusDMusic
+              <div className="footer-logo">
+                <Music size={22} color="#a78bfa" /> AusDMusic
               </div>
               <div className="footer-links">
-                <a href="#fitur" className="footer-link">Features</a>
+                <a href="#fitur" className="footer-link">Fitur Utama</a>
+                <a href="#blog" className="footer-link">Pembaruan</a>
                 <a href="https://github.com/Wibugans/AusDMusic" target="_blank" rel="noreferrer" className="footer-link">Source Code</a>
               </div>
               <div className="footer-copy">
-                Created by Yusril When &bull; &copy; 2026 AusDMusic. Open Source under GPL-3.0.
+                Created by Yusril When &bull; &copy; 2026 AusDMusic. Hak Cipta Dilindungi.
               </div>
             </div>
           </div>
@@ -331,8 +345,8 @@ export default function App() {
       </div>
 
       {/* DISCREET MUSIC CONTROLLER */}
-      <div className="music-controller" onClick={toggleAudio} title={isPlaying ? "Pause audio" : "Play audio"}>
-        {isPlaying ? <Volume2 size={24} /> : <Play size={24} />}
+      <div className="music-controller" onClick={toggleAudio} title={isPlaying ? "Pause background music" : "Play background music"}>
+        {isPlaying ? <Volume2 size={22} /> : <Play size={22} />}
       </div>
     </>
   );
