@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import {
-  Play, Mic2, Zap, Smartphone, ListMusic, Wifi,
-  Terminal, Check, Shield, Monitor, Volume2, Music,
-  Download, Globe, ArrowRight, Star, Users, Clock, Headphones
+  Play, Mic2, Zap, Smartphone, Wifi,
+  Terminal, Check, Monitor, Volume2,
+  Download, ArrowRight, Headphones
 } from 'lucide-react';
 import img1 from './assets/1.jpg';
 import img2 from './assets/2.jpg';
+import appIcon from '/icon.png';
 import './index.css';
 
 // Animation Variants
@@ -91,9 +92,7 @@ export default function App() {
       {/* NAVBAR */}
       <nav>
         <a href="#" className="nav-logo">
-          <div className="nav-logo-icon">
-            <Music size={20} color="#fff" />
-          </div>
+          <img src={appIcon} alt="AusDMusic" className="nav-logo-img" />
           AusDMusic
         </a>
         <div className="nav-links">
@@ -120,18 +119,18 @@ export default function App() {
               <motion.div variants={fadeUp} style={{ display: 'flex', justifyContent: 'center' }}>
                 <div className="hero-eyebrow">
                   <span className="eyebrow-dot" />
-                  AusDMusic {version} — Now on Windows & Android
+                  Versi terbaru {version} sudah tersedia
                 </div>
               </motion.div>
 
               <motion.h1 variants={fadeUp}>
-                Musik tanpa batas.<br />
-                <span className="hero-text-gradient">Suara yang sebenarnya.</span>
+                Bukan sekadar<br />
+                <span className="hero-text-gradient">pemutar musik biasa.</span>
               </motion.h1>
 
               <motion.p className="hero-sub" variants={fadeUp}>
-                Pemutar musik premium lintas platform yang dibangun untuk mereka yang peduli pada kualitas.
-                Bebas iklan, open source, dengan lirik real-time dan antarmuka yang memukau.
+                AusDMusic dibuat karena frustrasi dengan aplikasi musik yang penuh iklan dan terasa lambat.
+                Hasilnya? Aplikasi yang ringan, cantik, dan benar-benar gratis — tanpa syarat tersembunyi.
               </motion.p>
 
               <motion.div className="hero-cta-group" variants={fadeUp}>
@@ -157,12 +156,10 @@ export default function App() {
 
                 {/* Floating cards */}
                 <div className="hero-float-card hero-float-left">
-                  <div className="float-icon float-icon-cyan">
-                    <Mic2 size={18} color="#000" />
-                  </div>
+                  <img src={appIcon} alt="" style={{width:36,height:36,borderRadius:10}} />
                   <div>
-                    <div className="float-label">Lyrics Mode</div>
-                    <div className="float-value">Real-time Sync</div>
+                    <div className="float-label">Bebas Iklan</div>
+                    <div className="float-value">100% Gratis</div>
                   </div>
                 </div>
                 <div className="hero-float-card hero-float-right">
@@ -170,7 +167,7 @@ export default function App() {
                     <Headphones size={18} color="#000" />
                   </div>
                   <div>
-                    <div className="float-label">Audio Quality</div>
+                    <div className="float-label">Kualitas Audio</div>
                     <div className="float-value">Lossless HD</div>
                   </div>
                 </div>
@@ -185,10 +182,10 @@ export default function App() {
             <StaggerWrap>
               <div className="stats-inner">
                 {[
-                  { num: '100', unit: '%', label: 'Bebas Iklan', color: '#a78bfa' },
-                  { num: '60', unit: 'fps', label: 'Animasi Native', color: '#0bf0c4' },
-                  { num: '8.9', unit: '', label: 'Versi Stabil', color: '#f72585' },
-                  { num: '2', unit: '+', label: 'Platform Didukung', color: '#22c55e' },
+                  { num: '0', unit: ' iklan', label: 'Tanpa iklan sama sekali', color: '#a78bfa' },
+                  { num: '60', unit: 'fps', label: 'Animasi layar mulus', color: '#0bf0c4' },
+                  { num: '8.9', unit: '.1', label: 'Versi stabil terkini', color: '#f72585' },
+                  { num: '2', unit: ' OS', label: 'Android & Windows', color: '#22c55e' },
                 ].map((s, i) => (
                   <motion.div key={i} className="stat-item" variants={fadeUp}>
                     <div className="stat-number" style={{ color: s.color }}>
@@ -211,10 +208,10 @@ export default function App() {
                   <Mic2 size={14} /> Lirik Premium
                 </div>
                 <h2 className="feature-title">
-                  Lirik tersinkronisasi yang<br />bergerak bersama lagu.
+                  Tiap kata menyala<br />tepat saat dinyanyikan.
                 </h2>
                 <p className="feature-desc">
-                  Setiap kata menyala tepat saat dinyanyikan. AusDMusic mendukung tampilan lirik real-time dengan terjemahan otomatis dari jutaan lagu di seluruh dunia. Tak perlu buka tab browser lain.
+                  Pernah kehilangan momen terbaik lagu hanya karena harus buka tab baru cari lirik? Di AusDMusic, lirik langsung muncul dan bergulir sendiri — akurat, sinkron, bahkan bisa diterjemahkan otomatis.
                 </p>
                 <div className="feature-checks">
                   {[
@@ -255,10 +252,10 @@ export default function App() {
                   <Wifi size={14} /> Offline Mode
                 </div>
                 <h2 className="feature-title">
-                  Unduh sekali,<br />dengarkan selamanya.
+                  Di hutan, di pesawat,<br />tanpa sinyal pun bisa.
                 </h2>
                 <p className="feature-desc">
-                  Tidak ada sinyal? Tidak masalah. Simpan seluruh album favorit Anda beserta lirik dan metadata ke penyimpanan lokal. Kualitas audio tetap terjaga sempurna, tidak ada kompresi tambahan.
+                  Simpan lagu favorit kamu sebelum bepergian. AusDMusic menyimpan audio dalam kualitas asli beserta lirik dan artwork — bukan sekadar cache sementara yang hilang setelah beberapa hari.
                 </p>
                 <div className="feature-checks">
                   {[
@@ -299,10 +296,10 @@ export default function App() {
                   <Zap size={14} /> Performa Tinggi
                 </div>
                 <h2 className="feature-title">
-                  Ringan di baterai,<br />berat dalam fitur.
+                  Tidak rakus baterai.<br />Tidak lambat. Titik.
                 </h2>
                 <p className="feature-desc">
-                  Ditulis dalam Kotlin native dengan optimasi memori tingkat lanjut. AusDMusic beroperasi di latar belakang tanpa menguras baterai, memutar musik dengan latensi serendah mungkin.
+                  Kode ditulis native di Kotlin, bukan dibungkus framework web. Hasilnya terasa seperti langsung menyentuh perangkat keras — respons instan, transisi mulus, dan konsumsi baterai yang sangat hemat.
                 </p>
                 <div className="feature-checks">
                   {[
@@ -339,28 +336,28 @@ export default function App() {
           <div className="container">
             <AnimWrap>
               <div className="center">
-                <div className="section-eyebrow">Kenapa AusDMusic?</div>
-                <h2 className="section-title-large">Dibuat dengan standar yang lebih tinggi.</h2>
-                <p className="section-subtitle">Kami tidak berkompromi pada privasi, performa, atau estetika. Setiap keputusan desain diambil demi pengalaman terbaik Anda.</p>
+                <div className="section-eyebrow">Beda dari yang lain</div>
+                <h2 className="section-title-large">Kenapa pilih AusDMusic?</h2>
+                <p className="section-subtitle">Bukan soal fitur yang paling banyak. Tapi soal yang benar-benar penting buat kamu setiap hari.</p>
               </div>
             </AnimWrap>
             <StaggerWrap>
               <div className="why-grid">
                 {[
                   {
-                    icon: '🛡️', cls: 'wi-purple', top: 'why-top-purple',
-                    title: 'Privasi Mutlak',
-                    desc: 'Zero telemetri. Tidak ada data pengguna yang dikumpulkan atau dikirim ke server mana pun. Kode sumber terbuka untuk siapa saja yang ingin memverifikasinya.'
+                    icon: <ShieldCheck size={32} />, cls: 'wi-purple', top: 'why-top-purple',
+                    title: 'Data kamu tetap milikmu',
+                    desc: 'Tidak ada akun yang perlu dibuat. Tidak ada data yang dikirim ke mana pun. Bahkan pengembangnya sendiri tidak bisa melihat apa yang kamu dengarkan.'
                   },
                   {
-                    icon: '🎨', cls: 'wi-cyan', top: 'why-top-cyan',
-                    title: 'Desain Tanpa Kompromi',
-                    desc: 'Setiap piksel dirancang dengan cermat. Menggunakan Jetpack Compose untuk animasi yang terasa native dan transisi yang membuat Anda tidak mau menutup aplikasinya.'
+                    icon: <Sparkles size={32} />, cls: 'wi-cyan', top: 'why-top-cyan',
+                    title: 'Terasa mahal, tapi gratis',
+                    desc: 'Antarmuka yang biasanya hanya ada di aplikasi berbayar — animasi smooth, font bersih, layout yang rapi. Semua ini gratis dan open source.'
                   },
                   {
-                    icon: '⚡', cls: 'wi-pink', top: 'why-top-pink',
-                    title: 'Selalu Diperbarui',
-                    desc: 'Tim pengembang aktif merilis pembaruan secara konsisten. Setiap bug yang dilaporkan komunitas ditangani serius dan diperbaiki dengan cepat.'
+                    icon: <Code2 size={32} />, cls: 'wi-pink', top: 'why-top-pink',
+                    title: 'Dirawat dengan serius',
+                    desc: 'Bukan proyek yang dibiarkan mati. Bug dilaporkan hari ini, bisa jadi sudah diperbaiki minggu depan. Pengembang aktif dan komunikatif di GitHub.'
                   },
                 ].map((w, i) => (
                   <motion.div key={i} className={`why-card ${w.top}`} variants={fadeUp}>
@@ -379,15 +376,15 @@ export default function App() {
           <div className="container">
             <AnimWrap>
               <div className="center">
-                <div className="section-eyebrow">Tersedia Di</div>
-                <h2 className="section-title-large">Satu aplikasi, dua platform.</h2>
-                <p className="section-subtitle">Pengalaman mendengarkan yang konsisten dan premium, baik di genggaman maupun di meja kerja Anda.</p>
+                <div className="section-eyebrow">Download</div>
+                <h2 className="section-title-large">Pilih sesuai perangkatmu.</h2>
+                <p className="section-subtitle">Satu kodebase, dua platform. Tampilan dan fitur yang identik antara HP dan laptop kamu.</p>
               </div>
             </AnimWrap>
             <StaggerWrap>
               <div className="platform-grid">
                 <motion.div className="platform-card platform-card-android" variants={slideLeft}>
-                  <div className="platform-icon pi-android">🤖</div>
+                  <img src={appIcon} alt="Android" className="platform-icon" style={{width: 64, height: 64, margin: '0 auto 20px'}} />
                   <h3 className="platform-title">Android</h3>
                   <span className="platform-version pv-android">Versi 8.9.1 · Universal APK</span>
                   <p className="platform-desc">
@@ -404,7 +401,7 @@ export default function App() {
                 </motion.div>
 
                 <motion.div className="platform-card platform-card-windows" variants={slideRight}>
-                  <div className="platform-icon pi-windows">🖥️</div>
+                  <img src={appIcon} alt="Windows" className="platform-icon" style={{width: 64, height: 64, margin: '0 auto 20px'}} />
                   <h3 className="platform-title">Windows PC</h3>
                   <span className="platform-version pv-windows">Versi 8.9.1 · 64-bit Installer</span>
                   <p className="platform-desc">
@@ -435,9 +432,9 @@ export default function App() {
                       <img src={img1} alt="Yusril When" />
                     </div>
                     <div className="dev-name">Yusril When</div>
-                    <div className="dev-title">Software Engineer & Mobile Developer</div>
+                    <div className="dev-title">Developer & Desainer · Indonesia 🇮🇩</div>
                     <p className="dev-bio">
-                      Pengembang independen berbasis Indonesia yang berfokus pada rekayasa aplikasi Android berkualitas tinggi, desain antarmuka yang elegan, dan pengalaman pengguna yang bermakna.
+                      Mulai koding karena iseng, terus karena cinta. Membuat AusDMusic sebagai solusi pribadi yang akhirnya tumbuh jadi proyek open source yang dipakai banyak orang.
                     </p>
                     <div className="dev-links">
                       <a href="https://github.com/Wibugans" target="_blank" rel="noreferrer" className="dev-link">
@@ -457,13 +454,13 @@ export default function App() {
                 </motion.div>
 
                 <motion.div className="dev-info" variants={fadeUp}>
-                  <div className="section-eyebrow">Di Balik Aplikasi</div>
-                  <h2 className="dev-info-title">Satu pengembang, standar setara industri.</h2>
+                  <div className="section-eyebrow">Cerita di Baliknya</div>
+                  <h2 className="dev-info-title">Satu orang.<br />Satu aplikasi.<br />Banyak malam begadang.</h2>
                   <p className="dev-info-desc">
-                    AusDMusic lahir dari keresahan terhadap pemutar musik modern yang semakin hari semakin penuh iklan, semakin rakus data, dan semakin membosankan tampilannya.
+                    AusDMusic dimulai bukan karena ingin terkenal. Tapi karena tidak ada aplikasi musik yang benar-benar memuaskan — semuanya entah penuh iklan, entah lambat, atau entah tampilannya membosankan.
                   </p>
                   <p className="dev-info-desc">
-                    Dibangun seluruhnya menggunakan Kotlin Multiplatform dan Jetpack Compose, aplikasi ini dirancang dengan prinsip Clean Architecture agar mudah dikembangkan, aman, dan transparan bagi siapa saja yang ingin melihat kodenya.
+                    Jadi dibuat sendiri. Ditulis dari nol, diuji di banyak HP, diperbaiki berulang kali sampai terasa pas. Sekarang kodenya terbuka untuk siapapun yang mau berkontribusi atau sekadar belajar.
                   </p>
 
                   <div className="timeline">
@@ -497,13 +494,13 @@ export default function App() {
           <div className="cta-glow" />
           <div className="container cta-inner">
             <AnimWrap>
-              <div className="cta-tag">Mulai Sekarang</div>
+              <div className="cta-tag">Yuk mulai</div>
               <h2 className="cta-title">
-                Rasakan perbedaannya.<br />
-                <span style={{ color: 'var(--purple-light)' }}>Gratis selamanya.</span>
+                Instal sekarang.<br />
+                <span style={{ color: 'var(--purple-light)' }}>Gratis. Beneran.</span>
               </h2>
               <p className="cta-sub">
-                Tidak perlu mendaftar. Tidak ada langganan berbayar. Hanya musik berkualitas tinggi yang bisa Anda nikmati langsung setelah instalasi.
+                Tidak perlu daftar akun, tidak ada kartu kredit, tidak ada versi "free trial". Langsung instal, langsung main musik.
               </p>
               <div className="cta-buttons">
                 <a href={APK_URL} className="cta-btn cta-btn-primary" download>
@@ -529,7 +526,7 @@ export default function App() {
             <div className="footer-grid">
               <div className="footer-brand">
                 <a href="#" className="footer-logo">
-                  <div className="footer-logo-icon"><Music size={18} color="#fff" /></div>
+                  <img src={appIcon} alt="AusDMusic" style={{width:32,height:32,borderRadius:8}} />
                   AusDMusic
                 </a>
                 <p className="footer-tagline">
