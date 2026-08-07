@@ -136,36 +136,88 @@ const STORE_APPS = [
 
 // ─── Navbar Component ──────────────────────────────────────────────
 function Navbar({ currentPath }) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const closeDrawer = () => setDrawerOpen(false);
+
   return (
-    <nav className="nav blur-nav">
-      <a href="#/" className="nav-logo">
-        <img src={appIcon} alt="AusDMusic logo" />
-        AusDMusic
-      </a>
-      <div className="nav-links">
+    <>
+      <nav className="nav blur-nav">
+        <a href="#/" className="nav-logo" onClick={closeDrawer}>
+          <img src={appIcon} alt="AusDMusic logo" />
+          AusDMusic
+        </a>
+
+        {/* Desktop links */}
+        <div className="nav-links">
+          {currentPath === '/store' ? (
+            <>
+              <a href="#/" className="nav-link"><Home size={14} style={{display: 'inline', marginBottom: '-2px', marginRight: '4px'}}/>Beranda</a>
+              <a href="#/store" className="nav-link active"><Grid size={14} style={{display: 'inline', marginBottom: '-2px', marginRight: '4px'}}/>Wibugans Store</a>
+            </>
+          ) : (
+            <>
+              <a href="#/#fitur" className="nav-link">Fitur</a>
+              <a href="#/#tampilan" className="nav-link">Tampilan</a>
+              <a href="#/#download" className="nav-link">Download</a>
+              <a href="#/store" className="nav-link" style={{color: '#c084fc', fontWeight: '700'}}>
+                <ShoppingBag size={14} style={{display: 'inline', marginBottom: '-2px', marginRight: '4px'}}/>Store
+              </a>
+            </>
+          )}
+        </div>
+
+        {/* Desktop CTA */}
+        <div className="nav-cta">
+          <a href="https://github.com/Wibugans/AusDMusic" target="_blank" rel="noreferrer" className="nav-btn nav-btn-ghost">GH</a>
+          <a href={currentPath === '/store' ? "#/" : "#/#download"} className="nav-btn nav-btn-filled">
+            {currentPath === '/store' ? 'Kembali' : 'Download APK'}
+          </a>
+        </div>
+
+        {/* Hamburger (mobile only) */}
+        <button
+          className={`nav-hamburger ${drawerOpen ? 'open' : ''}`}
+          onClick={() => setDrawerOpen(o => !o)}
+          aria-label="Menu"
+        >
+          <span /><span /><span />
+        </button>
+      </nav>
+
+      {/* Mobile Drawer */}
+      <div className={`nav-drawer ${drawerOpen ? 'open' : ''}`}>
         {currentPath === '/store' ? (
           <>
-            <a href="#/" className="nav-link"><Home size={16} style={{display: 'inline', marginBottom: '-2px'}}/> Beranda</a>
-            <a href="#/store" className="nav-link active"><Grid size={16} style={{display: 'inline', marginBottom: '-2px'}}/> Wibugans Store</a>
+            <a href="#/" className="nav-drawer-link" onClick={closeDrawer}>
+              <Home size={18} /> Beranda
+            </a>
+            <a href="#/store" className="nav-drawer-link active" onClick={closeDrawer}>
+              <Grid size={18} /> Wibugans Store
+            </a>
           </>
         ) : (
           <>
-            <a href="#/#fitur" className="nav-link">Fitur</a>
-            <a href="#/#tampilan" className="nav-link">Tampilan</a>
-            <a href="#/#download" className="nav-link">Download</a>
-            <a href="#/store" className="nav-link" style={{color: '#c084fc', fontWeight: 'bold'}}><ShoppingBag size={16} style={{display: 'inline', marginBottom: '-2px'}}/> Store</a>
+            <a href="#/#fitur" className="nav-drawer-link" onClick={closeDrawer}>🎵 Fitur</a>
+            <a href="#/#tampilan" className="nav-drawer-link" onClick={closeDrawer}>🎨 Tampilan</a>
+            <a href="#/#download" className="nav-drawer-link" onClick={closeDrawer}>📥 Download</a>
+            <a href="#/#developer" className="nav-drawer-link" onClick={closeDrawer}>👤 Developer</a>
           </>
         )}
-      </div>
-      <div className="nav-cta">
-        <a href="https://github.com/Wibugans/AusDMusic" target="_blank" rel="noreferrer" className="nav-btn nav-btn-ghost">
-          GH
+        <div className="nav-drawer-divider" />
+        <a href="#/store" className="nav-drawer-link store-link" onClick={closeDrawer}>
+          <ShoppingBag size={18} /> Wibugans Store
         </a>
-        <a href={currentPath === '/store' ? "#/" : "#/#download"} className="nav-btn nav-btn-filled">
-          {currentPath === '/store' ? 'Kembali' : 'Download APK'}
+        <a
+          href={currentPath === '/store' ? "#/" : "#/#download"}
+          className="nav-drawer-dl"
+          onClick={closeDrawer}
+        >
+          <Download size={18} />
+          {currentPath === '/store' ? 'Kembali ke Beranda' : 'Download APK'}
         </a>
       </div>
-    </nav>
+    </>
   );
 }
 
